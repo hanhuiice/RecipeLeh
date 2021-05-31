@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1576270458",
+    "project_id": "recipeleh",
+    "storage_bucket": "recipeleh.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1576270458:android:73fbded2aa4c22421c59c3",
+        "android_client_info": {
+          "package_name": "com.botBrother.recipe_leh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1576270458-o64la7ss5t6bek3q039q2jflv44cobok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyIjPlSGRmZXvuH2Gn7K6blXHMq8jjCqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1576270458-o64la7ss5t6bek3q039q2jflv44cobok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
