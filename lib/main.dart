@@ -3,8 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-import 'home.dart';
+import 'screens/search.dart';
 import 'signup.dart';
+import 'screens/email_login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,7 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     User result = FirebaseAuth.instance.currentUser;
     return new SplashScreen(
-        navigateAfterSeconds: result != null ? Home(uid: result.uid) : SignUp(),
+        navigateAfterSeconds: result != null ? Search(uid: result.uid) : EmailLogIn(),
         seconds: 5,
         title: new Text(
           'Welcome To RecipeLeh!',

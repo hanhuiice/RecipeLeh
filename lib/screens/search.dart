@@ -2,12 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import 'signup.dart';
+import '../signup.dart';
+import 'saved_recipes.dart';
+import 'email_login.dart';
+import 'my_posts.dart';
 
-class Home extends StatelessWidget {
-  Home({this.uid});
+class Search extends StatelessWidget {
+  Search({this.uid});
+
   final String uid;
-  final String title = "Home";
+  final String title = "Search";
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class Home extends StatelessWidget {
                 auth.signOut().then((res) {
                   Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
+                      MaterialPageRoute(builder: (context) => EmailLogIn()),
                       (Route<dynamic> route) => false);
                 });
               },
@@ -39,7 +43,9 @@ class Home extends StatelessWidget {
 
 class NavigateDrawer extends StatefulWidget {
   final String uid;
+
   NavigateDrawer({Key key, this.uid}) : super(key: key);
+
   @override
   _NavigateDrawerState createState() => _NavigateDrawerState();
 }
@@ -84,26 +90,50 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
           ),
           ListTile(
             leading: new IconButton(
-              icon: new Icon(Icons.home, color: Colors.black),
-              onPressed: () => null,
-            ),
-            title: Text('Home'),
+              icon: new Icon(Icons.search, color: Colors.black),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Search(uid: widget.uid)),
+              )),
+            title: Text('Search'),
             onTap: () {
               print(widget.uid);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Home(uid: widget.uid)),
+                MaterialPageRoute(builder: (context) => Search(uid: widget.uid)),
               );
             },
           ),
           ListTile(
             leading: new IconButton(
-              icon: new Icon(Icons.settings, color: Colors.black),
-              onPressed: () => null,
-            ),
-            title: Text('Settings'),
+                icon: new Icon(Icons.saved_search, color: Colors.black),
+                onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => savedRecipes()),
+                    )),
+            title: Text('Saved Recipes'),
             onTap: () {
               print(widget.uid);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => savedRecipes()),
+              );
+            },
+          ),
+          ListTile(
+            leading: new IconButton(
+                icon: new Icon(Icons.account_circle, color: Colors.black),
+                onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => myPosts()),
+                    )),
+            title: Text('My Posts'),
+            onTap: () {
+              print(widget.uid);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => myPosts()),
+              );
             },
           ),
         ],
