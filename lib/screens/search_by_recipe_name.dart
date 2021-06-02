@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_leh/screens/db.dart';
 
 import '../signup.dart';
 import 'saved_recipes.dart';
@@ -203,20 +204,19 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 MaterialPageRoute(builder: (context) => savedRecipes()),
               );
             },
-          ),
-          ListTile(
+          ),ListTile(
             leading: new IconButton(
-                icon: new Icon(Icons.account_circle, color: Colors.black),
+                icon: new Icon(Icons.warning, color: Colors.black),
                 onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => myPosts()),
+                      MaterialPageRoute(builder: (context) => Database()),
                     )),
-            title: Text('My Posts'),
+            title: Text('Database Test'),
             onTap: () {
               print(widget.uid);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => myPosts()),
+                MaterialPageRoute(builder: (context) => Database()),
               );
             },
           ),
