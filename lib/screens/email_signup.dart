@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_leh/main.dart';
 
 import 'search_by_recipe_name.dart';
 
@@ -115,18 +116,11 @@ class _EmailSignUpState extends State<EmailSignUp> {
         .createUserWithEmailAndPassword(
             email: emailController.text, password: passwordController.text)
         .then((result) {
-      dbRef.child(result.user.uid).set({
-        "email": emailController.text,
-        "age": ageController.text,
-        "name": nameController.text
-      }).then((res) {
-        isLoading = false;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => searchByRecipeName(uid: result.user.uid)),
-        );
-      });
-    }).catchError((err) {
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.pop(context);
+      }).catchError((err) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -138,6 +132,9 @@ class _EmailSignUpState extends State<EmailSignUp> {
                   child: Text("Ok"),
                   onPressed: () {
                     Navigator.of(context).pop();
+                    setState(() {
+                      isLoading = false;
+                    });
                   },
                 )
               ],
@@ -152,6 +149,5 @@ class _EmailSignUpState extends State<EmailSignUp> {
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
-    ageController.dispose();
   }
 }
