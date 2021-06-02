@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import 'search.dart';
+import 'search_by_recipe_name.dart';
 
 class EmailSignUp extends StatefulWidget {
   @override
@@ -123,7 +123,7 @@ class _EmailSignUpState extends State<EmailSignUp> {
         isLoading = false;
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Search(uid: result.user.uid)),
+          MaterialPageRoute(builder: (context) => searchByRecipeName(uid: result.user.uid)),
         );
       });
     }).catchError((err) {

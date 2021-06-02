@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-import 'search.dart';
+import 'search_by_recipe_name.dart';
 import 'email_signup.dart';
 
 
@@ -121,7 +121,7 @@ class _EmailLogInState extends State<EmailLogIn> {
       isLoading = false;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Search(uid: result.user.uid)),
+        MaterialPageRoute(builder: (context) => searchByRecipeName(uid: result.user.uid)),
       );
     }).catchError((err) {
       print(err.message);

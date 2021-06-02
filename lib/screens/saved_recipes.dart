@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import '../recipe.dart';
+import '../classes/recipe.dart';
 import 'recipe_details.dart';
+import '../hardcode_recipes.dart'; //hardcode recipes
+
 
 class savedRecipes extends StatefulWidget {
   const savedRecipes({Key key}) : super(key: key);
@@ -13,26 +15,16 @@ class savedRecipes extends StatefulWidget {
 }
 
 class _savedRecipes extends State<savedRecipes> {
-  List<recipe> x = [
-    recipe(user: "hanhui", recipeName: "dog"),
-    recipe(user: "jo", recipeName: "cat"),
-    recipe(user: "a", recipeName: "b"),
-    recipe(user: "c", recipeName: "d"),
-    recipe(user: "e", recipeName: "f"),
-    recipe(user: "e", recipeName: "f"),
-    recipe(user: "e", recipeName: "f"),
-    recipe(user: "e", recipeName: "f"),
-    recipe(user: "e", recipeName: "f"),
-    recipe(user: "e", recipeName: "f"),
-    recipe(user: "e", recipeName: "f"),
-    recipe(user: "e", recipeName: "f"),
-    recipe(user: "x", recipeName: "f"),
-    recipe(user: "y", recipeName: "f"),
-    recipe(user: "z", recipeName: "f"),
+  List<recipe> recipes;
 
-  ];
+  @override
+  void initState() {
+    super.initState();
+    recipes = hardcode;
+  }
 
-  Widget recipeTemplate(x) {
+
+  Widget recipeTemplate(recipe) {
     return Card(
       margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
       child: Padding(
@@ -40,13 +32,13 @@ class _savedRecipes extends State<savedRecipes> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(x.recipeName,
+            Text(recipe.recipeName,
                 style: TextStyle(
                   fontSize: 18.0,
                   color: Colors.grey[600],
                 )),
             SizedBox(height: 6.0),
-            Text(x.user,
+            Text(recipe.user,
                 style: TextStyle(
                   fontSize: 14.0,
                   color: Colors.grey[800],
@@ -58,27 +50,24 @@ class _savedRecipes extends State<savedRecipes> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Saved Recipes")),
         body: ListView.builder(
-          itemCount: x.length,
+          itemCount: recipes.length,
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
                 onTap: () {
                   Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => recipeDetails(x[index])));
+                  MaterialPageRoute(builder: (context) => recipeDetails(recipes[index])));
                 },
-                title: Text(x[index].recipeName),
+                title: Text(recipes[index].recipeName),
                 subtitle: Text("Number of likes "),
               )
             );
           },
-          // children: x.map((x) => recipeTemplate(x)).toList(),
-          // onTa
         )
     );
   }

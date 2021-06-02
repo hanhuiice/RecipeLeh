@@ -6,15 +6,38 @@ import '../signup.dart';
 import 'saved_recipes.dart';
 import 'email_login.dart';
 import 'my_posts.dart';
+import 'search_by_ingredients.dart';
+import 'search_widget.dart';
+import '../classes/recipe.dart'; //recipe class
+import 'recipe_details.dart';
+import '../hardcode_recipes.dart'; //hardcode recipes
 
-class Search extends StatelessWidget {
-  Search({this.uid});
+
+class searchByRecipeName extends StatefulWidget {
+  searchByRecipeName({this.uid});
 
   final String uid;
-  final String title = "Search";
+
+  @override
+  _searchByRecipeNameState createState() => _searchByRecipeNameState();
+}
+
+class _searchByRecipeNameState extends State<searchByRecipeName> {
+  final String title = "Search By Name Of Recipe";
+
+  String query = '';
+  List<recipe> recipes;
+
+
+  @override
+  void initState() {
+    super.initState();
+    recipes = hardcode;
+  }
 
   @override
   Widget build(BuildContext context) {
+    //print(recipes);
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
@@ -36,8 +59,49 @@ class Search extends StatelessWidget {
             )
           ],
         ),
-        body: Center(child: Text('Welcome!')),
-        drawer: NavigateDrawer(uid: this.uid));
+        body: Column(
+          children: <Widget>[
+            buildSearch(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: recipes.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => recipeDetails(recipes[index])));
+                        },
+                        title: Text(recipes[index].recipeName),
+                        subtitle: Text("Number of likes "),
+                  )
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        drawer: NavigateDrawer(uid: this.widget.uid));
+  }
+
+  Widget buildSearch() => SearchWidget(
+        text: query,
+        hintText: 'Name of Recipe',
+        onChanged: searchRecipe,
+      );
+
+  void searchRecipe(String query) {
+    final recipes = hardcode.where((recipe) {
+      final recipeNameLower = recipe.recipeName.toLowerCase();
+      final searchLower = query.toLowerCase();
+
+      return recipeNameLower.contains(searchLower);
+    }).toList();
+
+    setState(() {
+      this.query = query;
+      this.recipes = recipes;
+    });
   }
 }
 
@@ -90,17 +154,37 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
           ),
           ListTile(
             leading: new IconButton(
-              icon: new Icon(Icons.search, color: Colors.black),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Search(uid: widget.uid)),
-              )),
-            title: Text('Search'),
+                icon: new Icon(Icons.search, color: Colors.black),
+                onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              searchByRecipeName(uid: widget.uid)),
+                    )),
+            title: Text('Search By Name Of Recipe'),
             onTap: () {
               print(widget.uid);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Search(uid: widget.uid)),
+                MaterialPageRoute(
+                    builder: (context) => searchByRecipeName(uid: widget.uid)),
+              );
+            },
+          ),
+          ListTile(
+            leading: new IconButton(
+                icon: new Icon(Icons.search, color: Colors.black),
+                onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => searchByIngredients()),
+                    )),
+            title: Text('Search By Ingredients'),
+            onTap: () {
+              print(widget.uid);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => searchByIngredients()),
               );
             },
           ),
