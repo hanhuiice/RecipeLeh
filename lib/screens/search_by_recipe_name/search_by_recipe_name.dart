@@ -12,12 +12,12 @@ import '../../classes/recipe.dart'; //recipe class
 import '../recipe_details.dart';
 import '../../hardcode_recipes.dart'; //hardcode recipes
 import '../search_by_ingredients.dart';
-
+import '../email_signup.dart';
 
 class searchByRecipeName extends StatefulWidget {
-  searchByRecipeName({this.uid});
+  searchByRecipeName({this.user});
 
-  final String uid;
+  final User user;
 
   @override
   _searchByRecipeNameState createState() => _searchByRecipeNameState();
@@ -28,7 +28,6 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
 
   String query = '';
   List<recipe> recipes;
-
 
   @override
   void initState() {
@@ -69,20 +68,23 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
                 itemBuilder: (context, index) {
                   return Card(
                       child: ListTile(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => recipeDetails(recipes[index])));
-                        },
-                        title: Text(recipes[index].recipeName),
-                        subtitle: Text("Number of likes "),
-                  )
-                  );
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  recipeDetails(recipes[index])));
+                    },
+                    title: Text(recipes[index].recipeName),
+                    subtitle: Text("Number of likes "),
+                  ));
                 },
               ),
             ),
           ],
         ),
-        drawer: NavigateDrawer(uid: this.widget.uid, saved: recipes, posts: recipes));
+        drawer: NavigateDrawer(
+            user: this.widget.user, saved: recipes, posts: recipes));
   }
 
   Widget buildSearch() => SearchWidget(
@@ -107,11 +109,12 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
 }
 
 class NavigateDrawer extends StatefulWidget {
-  final String uid;
+  final User user;
   List<recipe> saved;
   List<recipe> posts;
 
-  NavigateDrawer({Key key, this.uid, this.saved, this.posts}) : super(key: key);
+  NavigateDrawer({Key key, this.user, this.saved, this.posts})
+      : super(key: key);
 
   @override
   _NavigateDrawerState createState() => _NavigateDrawerState();
@@ -129,7 +132,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 future: FirebaseDatabase.instance
                     .reference()
                     .child("Users")
-                    .child(widget.uid)
+                    .child(widget.user.uid)
                     .once(),
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
@@ -142,7 +145,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 future: FirebaseDatabase.instance
                     .reference()
                     .child("Users")
-                    .child(widget.uid)
+                    .child(widget.user.uid)
                     .once(),
                 builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
                   if (snapshot.hasData) {
@@ -162,15 +165,16 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              searchByRecipeName(uid: widget.uid)),
+                              searchByRecipeName(user: widget.user)),
                     )),
             title: Text('Search By Name Of Recipe'),
             onTap: () {
-              print(widget.uid);
+              print(widget.user);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => searchByRecipeName(uid: widget.uid)),
+                    builder: (context) =>
+                        searchByRecipeName(user: widget.user)),
               );
             },
           ),
@@ -184,58 +188,93 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                     )),
             title: Text('Search By Ingredients'),
             onTap: () {
-              print(widget.uid);
+              print(widget.user);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => searchByIngredients()),
               );
             },
           ),
+          // saved recipes
           ListTile(
-            leading: new IconButton(
-                icon: new Icon(Icons.favorite, color: Colors.black),
-                onPressed: () => Navigator.push(
+                  leading: new IconButton(
+                      icon: new Icon(Icons.favorite, color: Colors.black),
+                      onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => displayRecipes(
+                                    name: "Saved Recipes",
+                                    recipes: widget.saved)),
+                          )),
+                  title: Text('Saved Recipes'),
+                  onTap: () {
+                    print(widget.user);
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => displayRecipes(name: "Saved Recipes", recipes: widget.saved)),
-                    )),
-            title: Text('Saved Recipes'),
-            onTap: () {
-              print(widget.uid);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => displayRecipes(name: "Saved Recipes ", recipes: widget.saved)),
-              );
-            },
-          ),
-          ListTile(
-            leading: new IconButton(
-                icon: new Icon(Icons.create, color: Colors.black),
-                onPressed: () => Navigator.push(
+                      MaterialPageRoute(
+                          builder: (context) => displayRecipes(
+                              name: "Saved Recipes ", recipes: widget.saved)),
+                    );
+                  },
+                ),
+          widget.user.isAnonymous
+          // sign up
+              ? ListTile(
+              leading: new IconButton(
+                  icon: new Icon(Icons.email, color: Colors.black),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EmailSignUp())
+                  )),
+              title: Text('Sign Up with Email'),
+              onTap: () {
+                print(widget.user);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EmailSignUp()));
+              }
+          )
+          // upload
+              : ListTile(
+                  leading: new IconButton(
+                      icon: new Icon(Icons.create, color: Colors.black),
+                      onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RecipeUpload()),
+                          )),
+                  title: Text('Upload'),
+                  onTap: () {
+                    print(widget.user);
+                    Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => RecipeUpload()),
-                    )),
-            title: Text('Upload'),
-            onTap: () {
-              print(widget.uid);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RecipeUpload()),
-              );
-            },
-          ),
-          ListTile(
+                    );
+                  },
+                ),
+          widget.user.isAnonymous
+          // empty
+              ? new Container()
+          // my posts
+          : ListTile(
             leading: new IconButton(
                 icon: new Icon(Icons.account_circle, color: Colors.black),
                 onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => displayRecipes(name: "My Posts", recipes: widget.posts)),
-                )),
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => displayRecipes(
+                              name: "My Posts", recipes: widget.posts)),
+                    )),
             title: Text('My Posts'),
             onTap: () {
-              print(widget.uid);
+              print(widget.user);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => displayRecipes(name: "My Posts", recipes: widget.posts)),
+                MaterialPageRoute(
+                    builder: (context) => displayRecipes(
+                        name: "My Posts", recipes: widget.posts)),
               );
             },
           ),

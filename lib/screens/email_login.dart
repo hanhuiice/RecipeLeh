@@ -5,7 +5,6 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'search_by_recipe_name/search_by_recipe_name.dart';
 import 'email_signup.dart';
 
-
 class EmailLogIn extends StatefulWidget {
   @override
   _EmailLogInState createState() => _EmailLogInState();
@@ -108,9 +107,48 @@ class _EmailLogInState extends State<EmailLogIn> {
                           );
                         },
                       )),
+                  Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.lightBlue)),
+                        onPressed: () => _signInAnonymously(),
+                        child: Text('Sign in as a Guest'),
+                      )),
                 ],
               )
             ]))));
+  }
+
+  Future<void> _signInAnonymously() async {
+    await FirebaseAuth.instance.signInAnonymously().then((result) {
+      isLoading = false;
+      print(result.user);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => searchByRecipeName(user: result.user)),
+      );
+    }).catchError((err) {
+      print(err.message);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(err.message),
+              actions: [
+                ElevatedButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
+    });
   }
 
   void logInToFb() {
@@ -119,9 +157,11 @@ class _EmailLogInState extends State<EmailLogIn> {
             email: emailController.text, password: passwordController.text)
         .then((result) {
       isLoading = false;
+      print(result.user.uid);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => searchByRecipeName(uid: result.user.uid)),
+        MaterialPageRoute(
+            builder: (context) => searchByRecipeName(user: result.user)),
       );
     }).catchError((err) {
       print(err.message);
