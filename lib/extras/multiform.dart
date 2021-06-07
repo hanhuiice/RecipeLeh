@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'empty_state.dart';
-import '../screens/ingredient_form.dart';
+import 'ingredient_form.dart';
 
 class MultiForm extends StatefulWidget {
   @override
