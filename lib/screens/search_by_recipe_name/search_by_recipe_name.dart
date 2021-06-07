@@ -197,102 +197,82 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
           ),
           // saved recipes
           ListTile(
-                  leading: new IconButton(
-                      icon: new Icon(Icons.favorite, color: Colors.black),
-                      onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => displayRecipes(
-                                    name: "Saved Recipes",
-                                    recipes: widget.saved)),
-                          )),
-                  title: Text('Saved Recipes'),
-                  onTap: () {
-                    print(widget.user);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => displayRecipes(
-                              name: "Saved Recipes ", recipes: widget.saved)),
-                    );
-                  },
-                ),
-          widget.user.isAnonymous
-          // sign up
-              ? ListTile(
-              leading: new IconButton(
-                  icon: new Icon(Icons.email, color: Colors.black),
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EmailSignUp())
-                  )),
-              title: Text('Sign Up with Email'),
-              onTap: () {
-                print(widget.user);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EmailSignUp()));
-              }
-          )
-          // upload
-              : ListTile(
-                  leading: new IconButton(
-                      icon: new Icon(Icons.create, color: Colors.black),
-                      onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RecipeUpload()),
-                          )),
-                  title: Text('Upload'),
-                  onTap: () {
-                    print(widget.user);
-                    Navigator.push(
-                      context,
-<<<<<<< HEAD
-                      MaterialPageRoute(builder: (context) => RecipeUpload()),
-                    );
-                  },
-                ),
-          widget.user.isAnonymous
-          // empty
-              ? new Container()
-          // my posts
-          : ListTile(
-=======
-                      MaterialPageRoute(builder: (context) => UploadForm()),
-                    )),
-            title: Text('Upload'),
-            onTap: () {
-              print(widget.uid);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => UploadForm()),
-              );
-            },
-          ),
-          ListTile(
->>>>>>> 0db11aa620c8103888eb18340004ffea0bbb7600
             leading: new IconButton(
-                icon: new Icon(Icons.account_circle, color: Colors.black),
+                icon: new Icon(Icons.favorite, color: Colors.black),
                 onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => displayRecipes(
-                              name: "My Posts", recipes: widget.posts)),
+                              name: "Saved Recipes", recipes: widget.saved)),
                     )),
-            title: Text('My Posts'),
+            title: Text('Saved Recipes'),
             onTap: () {
               print(widget.user);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => displayRecipes(
-                        name: "My Posts", recipes: widget.posts)),
+                        name: "Saved Recipes ", recipes: widget.saved)),
               );
             },
           ),
+          widget.user.isAnonymous
+              // sign up
+              ? ListTile(
+                  leading: new IconButton(
+                      icon: new Icon(Icons.email, color: Colors.black),
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EmailSignUp()))),
+                  title: Text('Sign Up with Email'),
+                  onTap: () {
+                    print(widget.user);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => EmailSignUp()));
+                  })
+              // upload
+              : ListTile(
+                  leading: new IconButton(
+                      icon: new Icon(Icons.create, color: Colors.black),
+                      onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UploadForm()),
+                          )),
+                  title: Text('Upload'),
+                  onTap: () {
+                    print(widget.user);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UploadForm()),
+                    );
+                  },
+                ),
+          widget.user.isAnonymous
+              // empty
+              ? new Container()
+              // my posts
+              : ListTile(
+                  leading: new IconButton(
+                      icon: new Icon(Icons.account_circle, color: Colors.black),
+                      onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => displayRecipes(
+                                    name: "My Posts", recipes: widget.posts)),
+                          )),
+                  title: Text('My Posts'),
+                  onTap: () {
+                    print(widget.user);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => displayRecipes(
+                              name: "My Posts", recipes: widget.posts)),
+                    );
+                  },
+                ),
         ],
       ),
     );
