@@ -250,6 +250,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                     print(widget.user);
                     Navigator.push(
                       context,
+<<<<<<< HEAD
                       MaterialPageRoute(builder: (context) => RecipeUpload()),
                     );
                   },
@@ -259,6 +260,20 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
               ? new Container()
           // my posts
           : ListTile(
+=======
+                      MaterialPageRoute(builder: (context) => UploadForm()),
+                    )),
+            title: Text('Upload'),
+            onTap: () {
+              print(widget.uid);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UploadForm()),
+              );
+            },
+          ),
+          ListTile(
+>>>>>>> 0db11aa620c8103888eb18340004ffea0bbb7600
             leading: new IconButton(
                 icon: new Icon(Icons.account_circle, color: Colors.black),
                 onPressed: () => Navigator.push(

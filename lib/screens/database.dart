@@ -4,9 +4,11 @@ import 'package:recipe_leh/classes/recipe.dart';
 class DatabaseService {
   final CollectionReference recipeCollection = FirebaseFirestore.instance.collection('recipe');
 
-  addRecipe(String name) {
+  addRecipe(String name, List<String> ingredients, String instructions) {
     recipeCollection.add({
       'name': name,
+      'ingredients': ingredients,
+      'instructions': instructions,
     });
   }
 
