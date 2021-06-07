@@ -210,14 +210,14 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 icon: new Icon(Icons.warning, color: Colors.black),
                 onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RecipeUpload()),
+                      MaterialPageRoute(builder: (context) => UploadForm()),
                     )),
             title: Text('Upload'),
             onTap: () {
               print(widget.uid);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RecipeUpload()),
+                MaterialPageRoute(builder: (context) => UploadForm()),
               );
             },
           ),
