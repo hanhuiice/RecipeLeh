@@ -31,6 +31,17 @@ class _searchByIngredientsState extends State<searchByIngredients> {
     setState(() {});
   }
 
+  deleteDynamic(String _ingredient) {
+    setState(() {
+      var find = data.firstWhere(
+            (it) => it == _ingredient,
+        orElse: () => null,
+      );
+      if (find != null) data.removeAt(data.indexOf(find));
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Widget result = new Flexible(

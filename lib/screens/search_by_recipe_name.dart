@@ -6,12 +6,11 @@ import 'package:recipe_leh/screens/db.dart';
 import '../signup.dart';
 import 'saved_recipes.dart';
 import 'email_login.dart';
-import 'my_posts.dart';
-import 'search_by_ingredients.dart';
 import 'search_widget.dart';
 import '../classes/recipe.dart'; //recipe class
 import 'recipe_details.dart';
 import '../hardcode_recipes.dart'; //hardcode recipes
+import 'my_form.dart';
 
 
 class searchByRecipeName extends StatefulWidget {
@@ -82,7 +81,7 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
             ),
           ],
         ),
-        drawer: NavigateDrawer(uid: this.widget.uid));
+        drawer: NavigateDrawer(uid: this.widget.uid, saved: recipes));
   }
 
   Widget buildSearch() => SearchWidget(
@@ -108,8 +107,9 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
 
 class NavigateDrawer extends StatefulWidget {
   final String uid;
+  List<recipe> saved;
 
-  NavigateDrawer({Key key, this.uid}) : super(key: key);
+  NavigateDrawer({Key key, this.uid, this.saved}) : super(key: key);
 
   @override
   _NavigateDrawerState createState() => _NavigateDrawerState();
@@ -178,14 +178,14 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => searchByIngredients()),
+                          builder: (context) => MyForm()),
                     )),
             title: Text('Search By Ingredients'),
             onTap: () {
               print(widget.uid);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => searchByIngredients()),
+                MaterialPageRoute(builder: (context) => MyForm()),
               );
             },
           ),
@@ -194,14 +194,14 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 icon: new Icon(Icons.saved_search, color: Colors.black),
                 onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => savedRecipes()),
+                      MaterialPageRoute(builder: (context) => savedRecipes(name: "Saved Recipes", recipes: widget.saved)),
                     )),
             title: Text('Saved Recipes'),
             onTap: () {
               print(widget.uid);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => savedRecipes()),
+                MaterialPageRoute(builder: (context) => savedRecipes(name: "Saved Recipes ", recipes: widget.saved)),
               );
             },
           ),ListTile(

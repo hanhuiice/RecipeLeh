@@ -8,20 +8,22 @@ import '../hardcode_recipes.dart'; //hardcode recipes
 
 
 class savedRecipes extends StatefulWidget {
-  const savedRecipes({Key key}) : super(key: key);
+  String name;
+  List<recipe> recipes;
+  savedRecipes({Key key, this.name, this.recipes}) : super(key: key);
+
 
   @override
   _savedRecipes createState() => _savedRecipes();
 }
 
 class _savedRecipes extends State<savedRecipes> {
-  List<recipe> recipes;
 
   @override
   void initState() {
     super.initState();
-    recipes = hardcode;
   }
+
 
 
   Widget recipeTemplate(recipe) {
@@ -53,17 +55,17 @@ class _savedRecipes extends State<savedRecipes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Saved Recipes")),
+        appBar: AppBar(title: Text(widget.name)),
         body: ListView.builder(
-          itemCount: recipes.length,
+          itemCount: widget.recipes.length,
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
                 onTap: () {
                   Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => recipeDetails(recipes[index])));
+                  MaterialPageRoute(builder: (context) => recipeDetails(widget.recipes[index])));
                 },
-                title: Text(recipes[index].recipeName),
+                title: Text(widget.recipes[index].recipeName),
                 subtitle: Text("Number of likes "),
               )
             );
