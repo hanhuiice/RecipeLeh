@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_leh/screens/db.dart';
+import 'package:recipe_leh/screens/upload.dart';
 
 import '../signup.dart';
 import 'saved_recipes.dart';
@@ -209,14 +210,14 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 icon: new Icon(Icons.warning, color: Colors.black),
                 onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Database()),
+                      MaterialPageRoute(builder: (context) => RecipeUpload()),
                     )),
-            title: Text('Database Test'),
+            title: Text('Upload'),
             onTap: () {
               print(widget.uid);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Database()),
+                MaterialPageRoute(builder: (context) => RecipeUpload()),
               );
             },
           ),
