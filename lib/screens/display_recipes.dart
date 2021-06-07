@@ -7,17 +7,17 @@ import 'recipe_details.dart';
 import '../hardcode_recipes.dart'; //hardcode recipes
 
 
-class savedRecipes extends StatefulWidget {
+class displayRecipes extends StatefulWidget {
   String name;
   List<recipe> recipes;
-  savedRecipes({Key key, this.name, this.recipes}) : super(key: key);
+  displayRecipes({Key key, this.name, this.recipes}) : super(key: key);
 
 
   @override
-  _savedRecipes createState() => _savedRecipes();
+  _displayRecipes createState() => _displayRecipes();
 }
 
-class _savedRecipes extends State<savedRecipes> {
+class _displayRecipes extends State<displayRecipes> {
 
   @override
   void initState() {

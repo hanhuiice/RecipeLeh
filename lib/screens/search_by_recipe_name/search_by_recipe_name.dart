@@ -2,16 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_leh/screens/db.dart';
-import 'package:recipe_leh/screens/upload.dart';
+import 'package:recipe_leh/extras/upload.dart';
 
-import '../signup.dart';
-import 'saved_recipes.dart';
-import 'email_login.dart';
+import '../../extras/signup.dart';
+import '../display_recipes.dart';
+import '../email_login.dart';
 import 'search_widget.dart';
-import '../classes/recipe.dart'; //recipe class
-import 'recipe_details.dart';
-import '../hardcode_recipes.dart'; //hardcode recipes
-import 'my_form.dart';
+import '../../classes/recipe.dart'; //recipe class
+import '../recipe_details.dart';
+import '../../hardcode_recipes.dart'; //hardcode recipes
+import '../search_by_ingredients.dart';
 
 
 class searchByRecipeName extends StatefulWidget {
@@ -82,7 +82,7 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
             ),
           ],
         ),
-        drawer: NavigateDrawer(uid: this.widget.uid, saved: recipes));
+        drawer: NavigateDrawer(uid: this.widget.uid, saved: recipes, posts: recipes));
   }
 
   Widget buildSearch() => SearchWidget(
@@ -109,8 +109,9 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
 class NavigateDrawer extends StatefulWidget {
   final String uid;
   List<recipe> saved;
+  List<recipe> posts;
 
-  NavigateDrawer({Key key, this.uid, this.saved}) : super(key: key);
+  NavigateDrawer({Key key, this.uid, this.saved, this.posts}) : super(key: key);
 
   @override
   _NavigateDrawerState createState() => _NavigateDrawerState();
@@ -175,39 +176,40 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
           ),
           ListTile(
             leading: new IconButton(
-                icon: new Icon(Icons.search, color: Colors.black),
+                icon: new Icon(Icons.checklist, color: Colors.black),
                 onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MyForm()),
+                          builder: (context) => searchByIngredients()),
                     )),
             title: Text('Search By Ingredients'),
             onTap: () {
               print(widget.uid);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyForm()),
+                MaterialPageRoute(builder: (context) => searchByIngredients()),
               );
             },
           ),
           ListTile(
             leading: new IconButton(
-                icon: new Icon(Icons.saved_search, color: Colors.black),
+                icon: new Icon(Icons.favorite, color: Colors.black),
                 onPressed: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => savedRecipes(name: "Saved Recipes", recipes: widget.saved)),
+                      MaterialPageRoute(builder: (context) => displayRecipes(name: "Saved Recipes", recipes: widget.saved)),
                     )),
             title: Text('Saved Recipes'),
             onTap: () {
               print(widget.uid);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => savedRecipes(name: "Saved Recipes ", recipes: widget.saved)),
+                MaterialPageRoute(builder: (context) => displayRecipes(name: "Saved Recipes ", recipes: widget.saved)),
               );
             },
-          ),ListTile(
+          ),
+          ListTile(
             leading: new IconButton(
-                icon: new Icon(Icons.warning, color: Colors.black),
+                icon: new Icon(Icons.create, color: Colors.black),
                 onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => RecipeUpload()),
@@ -218,6 +220,22 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RecipeUpload()),
+              );
+            },
+          ),
+          ListTile(
+            leading: new IconButton(
+                icon: new Icon(Icons.account_circle, color: Colors.black),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => displayRecipes(name: "My Posts", recipes: widget.posts)),
+                )),
+            title: Text('My Posts'),
+            onTap: () {
+              print(widget.uid);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => displayRecipes(name: "My Posts", recipes: widget.posts)),
               );
             },
           ),

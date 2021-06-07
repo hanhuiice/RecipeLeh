@@ -3,14 +3,14 @@ import 'package:flutter/rendering.dart';
 
 import '../classes/recipe.dart';
 import '../hardcode_recipes.dart';
-import 'saved_recipes.dart';
+import 'display_recipes.dart';
 
-class MyForm extends StatefulWidget {
+class searchByIngredients extends StatefulWidget {
   @override
-  _MyFormState createState() => _MyFormState();
+  _searchByIngredientsState createState() => _searchByIngredientsState();
 }
 
-class _MyFormState extends State<MyForm> {
+class _searchByIngredientsState extends State<searchByIngredients> {
   final _formKey = GlobalKey<FormState>();
   static List<String> ingredients = [null];
   List<recipe> recipes = hardcode;
@@ -20,7 +20,7 @@ class _MyFormState extends State<MyForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(title: Text('Dynamic TextFormFields'),),
+      appBar: AppBar(title: Text('Search By Ingredients'),),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -36,10 +36,9 @@ class _MyFormState extends State<MyForm> {
               ElevatedButton(
                 onPressed: () => {
                   if(_formKey.currentState.validate()){
-                    search(),
                     Navigator.push(
                         context,
-                    MaterialPageRoute(builder: (context) => savedRecipes(name: "Results", recipes: recipes)))
+                    MaterialPageRoute(builder: (context) => displayRecipes(name: "Results", recipes: search())))
                     // _formKey.currentState.save();
                   }
                 },
@@ -80,12 +79,13 @@ class _MyFormState extends State<MyForm> {
 
   search() {
     var recipeStream = new Stream.fromIterable(recipes);
+    List<recipe> output = [];
     for (int i = 0; i < ingredients.length; i++) {
-      // print(recipeStream.every(c -> c.user == ingredients[i]));
-
+      output.addAll(hardcode.where((recipe) => recipe.user == ingredients[i]).toList());
       print(ingredients[i]);
     }
-     ingredients = [null];
+    ingredients = [null];
+    return output.toSet().toList();
 
   }
 
@@ -144,12 +144,12 @@ class _IngredientsTextFieldsState extends State<IngredientsTextField> {
   Widget build(BuildContext context) {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _nameController.text = _MyFormState.ingredients[widget.index] ?? '';
+      _nameController.text = _searchByIngredientsState.ingredients[widget.index] ?? '';
     });
 
     return TextFormField(
       controller: _nameController,
-      onChanged: (v) => _MyFormState.ingredients[widget.index] = v,
+      onChanged: (v) => _searchByIngredientsState.ingredients[widget.index] = v,
       decoration: InputDecoration(
           hintText: 'Enter your ingredient'
       ),
