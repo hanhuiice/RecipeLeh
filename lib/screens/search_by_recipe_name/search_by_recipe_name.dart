@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_leh/screens/view_post_screen.dart';
 import 'package:recipe_leh/screens/db.dart';
 import 'package:recipe_leh/extras/upload.dart';
 
@@ -13,6 +14,8 @@ import '../recipe_details.dart';
 import '../../hardcode_recipes.dart'; //hardcode recipes
 import '../search_by_ingredients.dart';
 import '../email_signup.dart';
+import '../view_post_screen.dart';
+
 
 class searchByRecipeName extends StatefulWidget {
   searchByRecipeName({this.user});
@@ -73,7 +76,7 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  recipeDetails(recipes[index])));
+                                  ViewPostScreen(user: widget.user, selectedRecipe: recipes[index])));
                     },
                     title: Text(recipes[index].recipeName),
                     subtitle: Text("Number of likes "),
@@ -198,12 +201,12 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
           // saved recipes
           ListTile(
             leading: new IconButton(
-                icon: new Icon(Icons.favorite, color: Colors.black),
+                icon: new Icon(Icons.bookmark, color: Colors.black),
                 onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => displayRecipes(
-                              name: "Saved Recipes", recipes: widget.saved)),
+                              title: "Saved Recipes", recipes: widget.saved)),
                     )),
             title: Text('Saved Recipes'),
             onTap: () {
@@ -212,7 +215,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => displayRecipes(
-                        name: "Saved Recipes ", recipes: widget.saved)),
+                        title: "Saved Recipes ", recipes: widget.saved)),
               );
             },
           ),
@@ -260,7 +263,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => displayRecipes(
-                                    name: "My Posts", recipes: widget.posts)),
+                                    title: "My Posts", recipes: widget.posts)),
                           )),
                   title: Text('My Posts'),
                   onTap: () {
@@ -269,7 +272,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => displayRecipes(
-                              name: "My Posts", recipes: widget.posts)),
+                              title: "My Posts", recipes: widget.posts)),
                     );
                   },
                 ),

@@ -1,16 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_leh/screens/view_post_screen.dart';
 
 import '../classes/recipe.dart';
 import 'recipe_details.dart';
 import '../hardcode_recipes.dart'; //hardcode recipes
+import 'view_post_screen.dart';
 
 
 class displayRecipes extends StatefulWidget {
-  String name;
+  User user;
+  String title;
   List<recipe> recipes;
-  displayRecipes({Key key, this.name, this.recipes}) : super(key: key);
+  displayRecipes({Key key, this.title, this.recipes, this.user}) : super(key: key);
 
 
   @override
@@ -55,7 +58,7 @@ class _displayRecipes extends State<displayRecipes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(widget.name)),
+        appBar: AppBar(title: Text(widget.title)),
         body: ListView.builder(
           itemCount: widget.recipes.length,
           itemBuilder: (context, index) {
@@ -63,7 +66,7 @@ class _displayRecipes extends State<displayRecipes> {
               child: ListTile(
                 onTap: () {
                   Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => recipeDetails(widget.recipes[index])));
+                  MaterialPageRoute(builder: (context) => ViewPostScreen(user: widget.user, selectedRecipe: widget.recipes[index])));
                 },
                 title: Text(widget.recipes[index].recipeName),
                 subtitle: Text("Number of likes "),

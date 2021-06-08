@@ -38,7 +38,7 @@ class _searchByIngredientsState extends State<searchByIngredients> {
                   if(_formKey.currentState.validate()){
                     Navigator.push(
                         context,
-                    MaterialPageRoute(builder: (context) => displayRecipes(name: "Results", recipes: search())))
+                    MaterialPageRoute(builder: (context) => displayRecipes(title: "Results", recipes: search())))
                     // _formKey.currentState.save();
                   }
                 },
