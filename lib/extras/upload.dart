@@ -1,7 +1,18 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recipe_leh/screens/database.dart';
+import 'package:path/path.dart';
 
 class UploadForm extends StatefulWidget {
+  final User user;
+  final String docId;
+  UploadForm({this.user, this.docId});
+
   @override
   _UploadFormState createState() => _UploadFormState();
 }
@@ -13,6 +24,7 @@ class _UploadFormState extends State<UploadForm> {
   static List<String> ingredientsList = [null];
   bool isLoading = false;
   DatabaseService databaseService = DatabaseService();
+  File imageFile;
 
   @override
   void dispose() {
@@ -25,7 +37,7 @@ class _UploadFormState extends State<UploadForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(title: Text('New post'),),
+      appBar: AppBar(title: (widget.docId == null) ? Text('New post') : Text("Edit"),),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -49,7 +61,7 @@ class _UploadFormState extends State<UploadForm> {
                 ),
                 SizedBox(height: 20,),
                 Text('Add ingredients', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),),
-                ..._getIngredients(),
+                ..._getIngredients().reversed,
                 SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.only(right: 10.0),
@@ -69,14 +81,27 @@ class _UploadFormState extends State<UploadForm> {
                     },
                   ),
                 ),
+                SizedBox(height: 20,),
+                Container(child: (imageFile == null) ? Text("Image") : Image.file(imageFile),
+                alignment: Alignment.center,
+                height: 200,
+                width: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white,
+                  ),),
+                ElevatedButton(
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue)),
+                    onPressed: () {
+                      _showChoiceDialog(context);
+                    },
+                    child: Text('Select Image'),
+                  ),
                 ElevatedButton(
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue)),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState.validate()) {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      databaseService.addRecipe(nameController.text, _UploadFormState.ingredientsList, instructionController.text);
+                      uploadToFirebase();
                       setState(() {
                         ingredientsList = [null];
                       });
@@ -106,7 +131,7 @@ class _UploadFormState extends State<UploadForm> {
                 Expanded(child: IngredientTextFields(i)),
                 SizedBox(width: 16,),
                 // we need add button at last friends row
-                _addRemoveButton(i == ingredientsList.length-1, i),
+                _addRemoveButton(i == 0, i),
               ],
             ),
           )
@@ -137,7 +162,73 @@ class _UploadFormState extends State<UploadForm> {
     );
   }
 
+  Future uploadToFirebase() async {
+    List<String> list = _UploadFormState.ingredientsList.reversed.toList();
+    if (imageFile != null) {
+      String fileName = basename(imageFile.path);
+      Reference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('uploads/$fileName');
+      UploadTask uploadTask = storageReference.putFile(imageFile);
+      await uploadTask.whenComplete(() => null);
+      storageReference.getDownloadURL().then((fileURL) {
+        databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, fileURL);
+      });
+    } else {
+      databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, null);
+    }
+  }
 
+  Future _showChoiceDialog(BuildContext context) {
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Choose option",style: TextStyle(color: Colors.blue),),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: [
+              Divider(height: 1,color: Colors.blue,),
+              ListTile(
+                onTap: (){
+                  _openGallery(context);
+                },
+                title: Text("Gallery"),
+                leading: Icon(Icons.account_box,color: Colors.blue,),
+              ),
+
+              Divider(height: 1,color: Colors.blue,),
+              ListTile(
+                onTap: (){
+                  _openCamera(context);
+                },
+                title: Text("Camera"),
+                leading: Icon(Icons.camera,color: Colors.blue,),
+              ),
+            ],
+          ),
+        ),);
+    });
+  }
+
+  void _openCamera(BuildContext context) async{
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera ,
+    );
+    setState(() {
+      imageFile = File(pickedFile.path);
+    });
+    Navigator.pop(context);
+  }
+
+  void _openGallery(BuildContext context) async{
+    final pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery ,
+    );
+    setState(() {
+      imageFile = File(pickedFile.path);
+    });
+
+    Navigator.pop(context);
+  }
 }
 
 class IngredientTextFields extends StatefulWidget {

@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_leh/screens/db.dart';
 import 'package:recipe_leh/extras/upload.dart';
 
-import '../../extras/signup.dart';
 import '../display_recipes.dart';
 import '../email_login.dart';
 import 'search_widget.dart';
@@ -128,32 +126,8 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           UserAccountsDrawerHeader(
-            accountEmail: FutureBuilder(
-                future: FirebaseDatabase.instance
-                    .reference()
-                    .child("Users")
-                    .child(widget.user.uid)
-                    .once(),
-                builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data.value['email']);
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                }),
-            accountName: FutureBuilder(
-                future: FirebaseDatabase.instance
-                    .reference()
-                    .child("Users")
-                    .child(widget.user.uid)
-                    .once(),
-                builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data.value['name']);
-                  } else {
-                    return CircularProgressIndicator();
-                  }
-                }),
+            accountEmail: widget.user.isAnonymous ? Text(widget.user.uid) : Text(widget.user.email),
+            accountName: widget.user.isAnonymous ? Text('Guest') : Text(widget.user.displayName),
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
@@ -238,14 +212,14 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                       onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => UploadForm()),
+                                builder: (context) => UploadForm(user: widget.user,)),
                           )),
                   title: Text('Upload'),
                   onTap: () {
                     print(widget.user);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => UploadForm()),
+                      MaterialPageRoute(builder: (context) => UploadForm(user: widget.user,)),
                     );
                   },
                 ),
@@ -264,7 +238,6 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                           )),
                   title: Text('My Posts'),
                   onTap: () {
-                    print(widget.user);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
