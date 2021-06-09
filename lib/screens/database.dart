@@ -15,7 +15,26 @@ class DatabaseService {
 
   Stream<QuerySnapshot> get recipes {
     return recipeCollection.snapshots();
+
   }
+
+  Future recipeList() async {
+    List itemsList = [];
+
+    try {
+      await recipeCollection.get().then((querySnapshot) {
+        querySnapshot.docs.forEach((element) {
+          itemsList.add(element.data);
+        });
+      });
+      return itemsList;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+
 
   myRecipe(String uid) {
 
