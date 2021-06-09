@@ -18,7 +18,7 @@ class DatabaseService {
 
   }
 
-  Future recipeList() async {
+  Future<List> recipeList() async {
     List itemsList = [];
 
     try {

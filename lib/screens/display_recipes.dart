@@ -10,6 +10,7 @@ import 'database.dart';
 class displayRecipes extends StatefulWidget {
   User user;
   String title;
+  Stream<QuerySnapshot> recipes;
 
   displayRecipes({Key key, this.title, this.recipes, this.user})
       : super(key: key);
