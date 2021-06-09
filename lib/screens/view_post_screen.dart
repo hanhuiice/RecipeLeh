@@ -1,12 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../classes/recipe.dart';
 import '../1/post.dart';
 
 class ViewPostScreen extends StatefulWidget {
   // displayRecipes({Key key, this.name, this.recipes}) : super(key: key);
-  final recipe selectedRecipe;
+  final DocumentSnapshot selectedRecipe;
   final User user;
 
   ViewPostScreen({Key key,this.selectedRecipe, this.user}) : super(key: key);
@@ -19,12 +19,11 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   Post post;
   bool isSameUser;
 
-
   @override
   void initState() {
     super.initState();
     post = posts[0];
-    isSameUser = widget.user.uid == widget.selectedRecipe.user;
+    isSameUser = widget.user.uid == widget.selectedRecipe['uid'];
   }
 
   @override
@@ -62,7 +61,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                     .width,
                                 child: ListTile(
                                     title: Text(
-                                      widget.selectedRecipe.user,
+                                      widget.selectedRecipe['name'],
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),

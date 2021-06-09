@@ -2,14 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_leh/screens/view_post_screen.dart';
 import 'package:recipe_leh/extras/upload.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 import '../display_recipes.dart';
 import '../email_login.dart';
 import 'search_widget.dart';
-import '../../hardcode_recipes.dart'; //hardcode recipes
 import '../search_by_ingredients.dart';
 import '../email_signup.dart';
 import '../view_post_screen.dart';
+import '../database.dart';
 
 
 class searchByRecipeName extends StatefulWidget {
@@ -23,19 +25,32 @@ class searchByRecipeName extends StatefulWidget {
 
 class _searchByRecipeNameState extends State<searchByRecipeName> {
   final String title = "Search By Name Of Recipe";
-
+  final DatabaseService db = DatabaseService();
   String query = '';
-  List<recipe> recipes;
+  List recipes;
 
   @override
   void initState() {
     super.initState();
-    recipes = hardcode;
+    recipes = ['123', '456'];
   }
 
   @override
   Widget build(BuildContext context) {
-    //print(recipes);
+
+    Stream<QuerySnapshot> myPosts = db.recipeCollection.where('uid', isEqualTo: widget.user.uid).snapshots();
+    // print(db.recipeCollection.where('ingredients', arrayContains: '1').snapshots().toList());
+
+    // print(myPosts);
+    // x.listen((QuerySnapshot querySnapshot){
+    //   querySnapshot.docs.forEach((document) => print(document['uid']));
+    // });
+    // print('hi');
+    // myPosts.listen((QuerySnapshot querySnapshot){
+    //   querySnapshot.docs.forEach((document) => print(document['uid']));
+    // });
+
+
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
@@ -61,28 +76,39 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
           children: <Widget>[
             buildSearch(),
             Expanded(
-              child: ListView.builder(
-                itemCount: recipes.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                      child: ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ViewPostScreen(user: widget.user, selectedRecipe: recipes[index])));
+              child: StreamBuilder(
+                stream: db.recipes,
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  else {
+                  return ListView.builder(
+                    itemCount: snapshot.data.size,
+                    itemBuilder: (BuildContext context, int index)  {
+                      return Card(
+                          child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ViewPostScreen(user: widget.user, selectedRecipe: snapshot.data.docs[index])));
+                        },
+                        title: Text(snapshot.data.docs[index]['name']),
+                        subtitle: Text("Number of likes "),
+                      ));
                     },
-                    title: Text(recipes[index].recipeName),
-                    subtitle: Text("Number of likes "),
-                  ));
-                },
+                  );
+                }}
               ),
             ),
           ],
         ),
         drawer: NavigateDrawer(
-            user: this.widget.user, saved: recipes, posts: recipes));
+            user: this.widget.user, saved: myPosts, myPosts: myPosts, db: db));
   }
 
   Widget buildSearch() => SearchWidget(
@@ -92,12 +118,19 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
       );
 
   void searchRecipe(String query) {
-    final recipes = hardcode.where((recipe) {
-      final recipeNameLower = recipe.recipeName.toLowerCase();
-      final searchLower = query.toLowerCase();
+    // res = db.recipeCollection.where('ingredients', arrayContainsAny: ingredients).snapshots();
 
-      return recipeNameLower.contains(searchLower);
-    }).toList();
+    // recipes = recipes.where('name'.toLowerCase(), isEqualTo: query.toLowerCase()).toList();
+
+    // final recipes = hardcode.where((recipe)) {
+      // final recipeNameLower = recipe.recipeName.toLowerCase();
+      // final searchLower = query.toLowerCase();
+
+    //   return recipeNameLower.contains(searchLower);
+    // }).toList();
+
+
+    recipes = recipes.where((recipe) => recipe.contain(query)).toList();
 
     setState(() {
       this.query = query;
@@ -108,10 +141,11 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
 
 class NavigateDrawer extends StatefulWidget {
   final User user;
-  List<recipe> saved;
-  List<recipe> posts;
+  Stream saved;
+  Stream myPosts;
+  DatabaseService db;
 
-  NavigateDrawer({Key key, this.user, this.saved, this.posts})
+  NavigateDrawer({Key key, this.user, this.saved, this.myPosts, this.db})
       : super(key: key);
 
   @override
@@ -163,6 +197,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
             title: Text('Search By Ingredients'),
             onTap: () {
               print(widget.user);
+              print(widget.db.recipeList);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => searchByIngredients()),
@@ -226,7 +261,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
           widget.user.isAnonymous
               // empty
               ? new Container()
-              // my posts
+              // my myPosts
               : ListTile(
                   leading: new IconButton(
                       icon: new Icon(Icons.account_circle, color: Colors.black),
@@ -234,7 +269,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => displayRecipes(
-                                    title: "My Posts", recipes: widget.posts)),
+                                    title: "My Posts", recipes: widget.myPosts)),
                           )),
                   title: Text('My Posts'),
                   onTap: () {
@@ -242,7 +277,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => displayRecipes(
-                              title: "My Posts", recipes: widget.posts)),
+                              title: "My Posts", recipes: widget.myPosts)),
                     );
                   },
                 ),
