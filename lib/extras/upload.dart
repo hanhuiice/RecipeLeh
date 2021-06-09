@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,8 +11,8 @@ import 'package:path/path.dart';
 
 class UploadForm extends StatefulWidget {
   final User user;
-  final String docId;
-  UploadForm({this.user, this.docId});
+  final String doc;
+  UploadForm({this.user, this.doc});
 
   @override
   _UploadFormState createState() => _UploadFormState();
@@ -19,12 +20,30 @@ class UploadForm extends StatefulWidget {
 
 class _UploadFormState extends State<UploadForm> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController instructionController = TextEditingController();
-  static List<String> ingredientsList = [null];
+  TextEditingController nameController;
+  TextEditingController instructionController;
+  static List<dynamic> ingredientsList;
   bool isLoading = false;
   DatabaseService databaseService = DatabaseService();
   File imageFile;
+
+  @override
+  void initState() {
+    if (widget.doc != null) {
+      databaseService.getDocument('F6lSmsGDEks9pJObhlAC').then((doc) =>
+          setState(() {
+            nameController = TextEditingController(text: doc['name']);
+            instructionController = TextEditingController(text: doc['instructions']);
+            ingredientsList = doc['ingredients'];
+          })
+      );
+    } else {
+      nameController = TextEditingController();
+      instructionController = TextEditingController();
+      ingredientsList = [null];
+    }
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -37,7 +56,7 @@ class _UploadFormState extends State<UploadForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(title: (widget.docId == null) ? Text('New post') : Text("Edit"),),
+      appBar: AppBar(title: (widget.doc == null) ? Text('New post') : Text("Edit"),),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -51,7 +70,7 @@ class _UploadFormState extends State<UploadForm> {
                   child: TextFormField(
                     controller: nameController,
                     decoration: InputDecoration(
-                      labelText: 'Enter your recipe name'
+                        labelText: 'Enter your recipe name'
                     ),
                     validator: (value){
                       if(value.isEmpty) return 'Please enter something';
@@ -83,20 +102,20 @@ class _UploadFormState extends State<UploadForm> {
                 ),
                 SizedBox(height: 20,),
                 Container(child: (imageFile == null) ? Text("Image") : Image.file(imageFile),
-                alignment: Alignment.center,
-                height: 200,
-                width: 200,
+                  alignment: Alignment.center,
+                  height: 200,
+                  width: 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.white,
                   ),),
                 ElevatedButton(
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue)),
-                    onPressed: () {
-                      _showChoiceDialog(context);
-                    },
-                    child: Text('Select Image'),
-                  ),
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue)),
+                  onPressed: () {
+                    _showChoiceDialog(context);
+                  },
+                  child: Text('Select Image'),
+                ),
                 ElevatedButton(
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue)),
                   onPressed: () async {
@@ -116,7 +135,6 @@ class _UploadFormState extends State<UploadForm> {
           ),
         ),
       ),
-
     );
   }
 
@@ -160,6 +178,23 @@ class _UploadFormState extends State<UploadForm> {
         child: Icon((add) ? Icons.add : Icons.remove, color: Colors.white,),
       ),
     );
+  }
+
+  Future updateToFirebase() async {
+    List<String> list = _UploadFormState.ingredientsList.reversed.toList();
+    if (imageFile != null) {
+      String fileName = basename(imageFile.path);
+      Reference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('uploads/$fileName');
+      UploadTask uploadTask = storageReference.putFile(imageFile);
+      await uploadTask.whenComplete(() => null);
+      storageReference.getDownloadURL().then((fileURL) {
+        databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, fileURL);
+      });
+    } else {
+      databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, null);
+    }
   }
 
   Future uploadToFirebase() async {

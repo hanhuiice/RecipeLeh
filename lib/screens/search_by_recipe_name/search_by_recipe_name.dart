@@ -1,15 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_leh/screens/view_post_screen.dart';
-import 'package:recipe_leh/screens/db.dart';
 import 'package:recipe_leh/extras/upload.dart';
 
 import '../display_recipes.dart';
 import '../email_login.dart';
 import 'search_widget.dart';
-import '../../classes/recipe.dart'; //recipe class
-import '../recipe_details.dart';
 import '../../hardcode_recipes.dart'; //hardcode recipes
 import '../search_by_ingredients.dart';
 import '../email_signup.dart';

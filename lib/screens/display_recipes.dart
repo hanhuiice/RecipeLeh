@@ -2,18 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_leh/screens/view_post_screen.dart';
-
-import '../classes/recipe.dart';
-import 'recipe_details.dart';
-import '../hardcode_recipes.dart'; //hardcode recipes
 import 'view_post_screen.dart';
 
 
 class displayRecipes extends StatefulWidget {
   User user;
   String title;
-  List<recipe> recipes;
-  displayRecipes({Key key, this.title, this.recipes, this.user}) : super(key: key);
+  displayRecipes({Key key, this.title, this.user}) : super(key: key);
 
 
   @override

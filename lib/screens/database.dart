@@ -17,6 +17,10 @@ class DatabaseService {
     return recipeCollection.snapshots();
   }
 
+  Future<DocumentSnapshot<Object>> getDocument(String docID) async {
+    return await recipeCollection.doc(docID).get();
+  }
+
   myRecipe(String uid) {
 
   }
