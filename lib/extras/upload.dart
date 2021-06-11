@@ -26,15 +26,17 @@ class _UploadFormState extends State<UploadForm> {
   bool isLoading = false;
   DatabaseService databaseService = DatabaseService();
   File imageFile;
+  String link;
 
   @override
   void initState() {
     if (widget.doc != null) {
-      databaseService.getDocument('F6lSmsGDEks9pJObhlAC').then((doc) =>
+      databaseService.getDocument('z6wkvBlVEnESFJUyslAp').then((doc) =>
           setState(() {
             nameController = TextEditingController(text: doc['name']);
             instructionController = TextEditingController(text: doc['instructions']);
             ingredientsList = doc['ingredients'];
+            link = doc['image'];
           })
       );
     } else {
@@ -181,7 +183,7 @@ class _UploadFormState extends State<UploadForm> {
   }
 
   Future updateToFirebase() async {
-    List<String> list = _UploadFormState.ingredientsList.reversed.toList();
+    List<dynamic> list = _UploadFormState.ingredientsList.reversed.toList();
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
       Reference storageReference = FirebaseStorage.instance
@@ -198,7 +200,7 @@ class _UploadFormState extends State<UploadForm> {
   }
 
   Future uploadToFirebase() async {
-    List<String> list = _UploadFormState.ingredientsList.reversed.toList();
+    List<dynamic> list = _UploadFormState.ingredientsList.reversed.toList();
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
       Reference storageReference = FirebaseStorage.instance

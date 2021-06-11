@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseService {
   final CollectionReference recipeCollection = FirebaseFirestore.instance.collection('recipe');
 
-  addRecipe(String uid, String name, List<String> ingredients, String instructions, String image) {
+  addRecipe(String uid, String name, List<dynamic> ingredients, String instructions, String image) {
     recipeCollection.add({
       'uid' : uid,
       'name': name,
