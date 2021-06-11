@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import '../1/post.dart';
 
 class ViewPostScreen extends StatefulWidget {
-  // displayRecipes({Key key, this.name, this.recipes}) : super(key: key);
   final DocumentSnapshot selectedRecipe;
   final User user;
 
-  ViewPostScreen({Key key,this.selectedRecipe, this.user}) : super(key: key);
+  ViewPostScreen({Key key, this.selectedRecipe, this.user}) : super(key: key);
 
   @override
   _ViewPostScreenState createState() => _ViewPostScreenState();
@@ -24,191 +23,222 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
     super.initState();
     post = posts[0];
     isSameUser = widget.user.uid == widget.selectedRecipe['uid'];
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
+    String ingredients = "";
+
+    for (String ingredient in widget.selectedRecipe['ingredients']) {
+      ingredients += ingredient + ", ";
+    }
+    ingredients = ingredients.substring(0, ingredients.length - 2);
+
+    List<String> instructionsList =
+        widget.selectedRecipe['instructions'].split("\n");
+    String instructions = "";
+    int counter = 1;
+    for (String instruction in instructionsList) {
+      String merger = "Step " + counter.toString() + ": ";
+      counter += 1;
+      instructions += merger + instruction + "\n\n";
+    }
+
     return Scaffold(
       // backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('Post'),
       ),
-      body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-            Container(
-              // padding: EdgeInsets.only(top: 10.0),
-              width: double.infinity,
-              // height: 700.0,
-              decoration: BoxDecoration(
-                // color: Colors.white,
-                borderRadius: BorderRadius.circular(25.0),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2.0),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width,
-                                child: ListTile(
-                                    title: Text(
-                                      widget.selectedRecipe['name'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            // padding: EdgeInsets.only(top: 10.0),
+            width: double.infinity,
+            // height: 700.0,
+            decoration: BoxDecoration(
+              // color: Colors.white,
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2.0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: ListTile(
+                                  title: Text(
+                                    widget.selectedRecipe['name'],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    subtitle: Text("Time ago?"),
-                                    trailing: isSameUser
-                                        ? Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          IconButton(
-                                              icon: Icon(Icons.edit,
-                                                  color: Colors.black),
-                                              onPressed: () =>
-                                              {
-                                                print('edit'),
-                                              }),
-                                          IconButton(
-                                              icon: Icon(Icons.delete,
-                                                  color: Colors.black),
-                                              onPressed: () =>
-                                              {
-                                                print('delete')
-                                              })
-
-                                        ]
-                                    )
-                                        : null
-                                )
-                            )
+                                  ),
+                                  subtitle: Text("Time ago?"),
+                                  trailing: isSameUser
+                                      ? Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                              IconButton(
+                                                  icon: Icon(Icons.edit,
+                                                      color: Colors.black),
+                                                  onPressed: () => {
+                                                        print('edit'),
+                                                      }),
+                                              IconButton(
+                                                  icon: Icon(Icons.delete,
+                                                      color: Colors.black),
+                                                  onPressed: () =>
+                                                      {print('delete')})
+                                            ])
+                                      : null))
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.fromLTRB(10.0, 0, 10.0, 10.0),
+                        width: double.infinity,
+                        height: 500.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black45,
+                              offset: Offset(0, 5),
+                              blurRadius: 8.0,
+                            ),
                           ],
                         ),
-                        Container(
-                            margin: EdgeInsets.fromLTRB(10.0, 0, 10.0, 10.0),
-                            width: double.infinity,
-                            height: 500.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black45,
-                                  offset: Offset(0, 5),
-                                  blurRadius: 8.0,
-                                ),
-                              ],
-                              image: DecorationImage(
-                                image: AssetImage(post.imageUrl),
-                                fit: BoxFit.scaleDown,
-                              ),
-                            ),
+                        child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
                             child: Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
+                                // mainAxisAlignment:
+                                // MainAxisAlignment.spaceAround,
                                 children: <Widget>[
-                                  Text('Name: ',
+                                  if (widget.selectedRecipe['image'] != null)
+                                    Image.network(
+                                      widget.selectedRecipe['image'],
+                                      height: 250.0,
+                                    ),
+                                  if (widget.selectedRecipe['image'] == null)
+                                    Image.asset('assets/images/dart.png',
+                                        height: 250.0, width: 350.0),
+                                  SizedBox(height: 10.0),
+                                  Text('Name:',
+                                      style: TextStyle(
+                                          // fontWeight: FontWeight.w700,
+                                          fontSize: 16)),
+                                  Text(widget.selectedRecipe['name'],
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 16)),
-                                  Text('Ingredients: ',
+                                  SizedBox(height: 10.0),
+                                  Text('Ingredients:',
+                                      style: TextStyle(
+                                          // fontWeight: FontWeight.w700,
+                                          fontSize: 16)),
+                                  Text(ingredients,
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 16)),
-                                  Text('Instructions: ',
+                                  SizedBox(height: 10.0),
+                                  Text('Instructions:',
+                                      style: TextStyle(
+                                          // fontWeight: FontWeight.w700,
+                                          fontSize: 16)),
+                                  Text(instructions,
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontSize: 16))
                                 ])),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.favorite_border),
-                                        iconSize: 30.0,
-                                        onPressed: () => print('Like post'),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(Icons.favorite_border),
+                                      iconSize: 30.0,
+                                      onPressed: () => print('Like post'),
+                                    ),
+                                    Text(
+                                      'Fuck you',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w600,
                                       ),
-                                      Text(
-                                        'Fuck you',
-                                        style: TextStyle(
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: 20.0),
+                                Row(
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(Icons.chat),
+                                      iconSize: 30.0,
+                                      onPressed: () {
+                                        print('Chat');
+                                      },
+                                    ),
+                                    Text(
+                                      'HanHui',
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w600,
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 20.0),
-                                  Row(
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.chat),
-                                        iconSize: 30.0,
-                                        onPressed: () {
-                                          print('Chat');
-                                        },
-                                      ),
-                                      Text(
-                                        'HanHui',
-                                        style: TextStyle(
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.bookmark_border),
-                                iconSize: 30.0,
-                                onPressed: () => print('Save post'),
-                              ),
-                            ],
-                          ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.bookmark_border),
+                              iconSize: 30.0,
+                              onPressed: () => print('Save post'),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            // SizedBox(height: 10.0),
-            // Container(
-            //   width: double.infinity,
-            //   height: 600.0,
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     borderRadius: BorderRadius.only(
-            //       topLeft: Radius.circular(30.0),
-            //       topRight: Radius.circular(30.0),
-            //     ),
-            //   ),
-            //   child: Column(
-            //     children: <Widget>[
-            //       _buildComment(0),
-            //       _buildComment(1),
-            //       _buildComment(2),
-            //       _buildComment(3),
-            //       _buildComment(4),
-            //     ],
-            //   ),
-            // )
-          ],
-        ),
+          ),
+          // SizedBox(height: 10.0),
+          // Container(
+          //   width: double.infinity,
+          //   height: 600.0,
+          //   decoration: BoxDecoration(
+          //     color: Colors.white,
+          //     borderRadius: BorderRadius.only(
+          //       topLeft: Radius.circular(30.0),
+          //       topRight: Radius.circular(30.0),
+          //     ),
+          //   ),
+          //   child: Column(
+          //     children: <Widget>[
+          //       _buildComment(0),
+          //       _buildComment(1),
+          //       _buildComment(2),
+          //       _buildComment(3),
+          //       _buildComment(4),
+          //     ],
+          //   ),
+          // )
+        ],
+        // ),
       ),
       // bottomNavigationBar: Transform.translate(
       //   offset: Offset(0.0, -1 * MediaQuery.of(context).viewInsets.bottom),
