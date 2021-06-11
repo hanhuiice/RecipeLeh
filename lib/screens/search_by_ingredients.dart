@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +7,10 @@ import 'display_recipes.dart';
 import 'database.dart';
 
 class searchByIngredients extends StatefulWidget {
+
+  final User user;
+  searchByIngredients({Key key, this.user}): super(key:key);
+
   @override
   _searchByIngredientsState createState() => _searchByIngredientsState();
 }
@@ -49,7 +54,7 @@ class _searchByIngredientsState extends State<searchByIngredients> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => displayRecipes(
-                                        title: "Results", recipes: search())))
+                                        user: widget.user, title: "Results", recipes: search())))
                             // _formKey.currentState.save();
                           }
                       },

@@ -14,7 +14,7 @@ import '../view_post_screen.dart';
 import '../database.dart';
 
 class searchByRecipeName extends StatefulWidget {
-  searchByRecipeName({this.user});
+  searchByRecipeName({Key key, this.user}): super(key:key);
 
   final User user;
 
@@ -26,7 +26,9 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
   final String title = "Search By Name Of Recipe";
   final DatabaseService db = DatabaseService();
   String query = '';
-  List recipes = [];
+  List recipes;
+  // List recipes = ['123', '456'];
+  // List<dynamic> hardcode = ['123', '456'];
   Stream<QuerySnapshot> recipeStream;
 
   Timer debouncer;
@@ -105,7 +107,8 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
           children: <Widget>[
             buildSearch(),
             Expanded(
-              child: StreamBuilder(
+              child:
+              StreamBuilder(
                   stream: recipeStream,
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -114,7 +117,8 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      return ListView.builder(
+                      return
+                        ListView.builder(
                         itemCount: snapshot.data.size,
                         itemBuilder: (BuildContext context, int index) {
                           return Card(
@@ -135,7 +139,8 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
                         },
                       );
                     }
-                  }),
+                  }
+                  ),
             ),
           ],
         ),
@@ -152,15 +157,9 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
 
 
   // void searchRecipe(String query) {
-
-  //   // final recipes = hardcode.where((recipe)) {
-  //     // final recipeNameLower = recipe.recipeName.toLowerCase();
-  //     // final searchLower = query.toLowerCase();
   //
-  //   //   return recipeNameLower.contains(searchLower);
-  //   // }).toList();
-  //   // res = db.recipeCollection.where('ingredients', arrayContainsAny: ingredients).snapshots();
-  //
+  //   final recipes = hardcode.where((recipe) {
+  //     return recipe.contains(query);}).toList();
   //
   //   setState(() {
   //     this.query = query;
@@ -168,11 +167,15 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
   //   });
   // }
 
-  Future searchRecipe(String query) async {
+
+
+  Future searchRecipe(String query) async => debounce(() async {
     final recipes = await db.recipeCollection
         .where(('name').toLowerCase(), isEqualTo: query)
         .snapshots()
         .toList();
+
+    print('here');
 
     final recipeStream = db.recipeCollection
         .where(('name').toLowerCase(), isEqualTo: query)
@@ -185,16 +188,8 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
       this.recipes = recipes;
       this.recipeStream = recipeStream;
     });
+  });
 
-
-    //
-    //   setState(() {
-    //     this.query = query;
-    //     this.recipes = recipes;
-    //   });
-    // }
-
-  }
 }
 
 class NavigateDrawer extends StatefulWidget {
@@ -254,7 +249,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => searchByIngredients()),
+                          builder: (context) => searchByIngredients(user: widget.user)),
                     )),
             title: Text('Search By Ingredients'),
             onTap: () {
@@ -262,7 +257,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
               print(widget.db.recipeList);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => searchByIngredients()),
+                MaterialPageRoute(builder: (context) => searchByIngredients(user: widget.user)),
               );
             },
           ),
@@ -274,7 +269,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => displayRecipes(
-                              title: "Saved Recipes", recipes: widget.saved)),
+                              user: widget.user, title: "Saved Recipes", recipes: widget.saved)),
                     )),
             title: Text('Saved Recipes'),
             onTap: () {
@@ -283,7 +278,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => displayRecipes(
-                        title: "Saved Recipes ", recipes: widget.saved)),
+                        user: widget.user, title: "Saved Recipes ", recipes: widget.saved)),
               );
             },
           ),
@@ -336,6 +331,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => displayRecipes(
+                                    user: widget.user,
                                     title: "My Posts",
                                     recipes: widget.myPosts)),
                           )),
@@ -345,7 +341,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => displayRecipes(
-                              title: "My Posts", recipes: widget.myPosts)),
+                              user: widget.user, title: "My Posts", recipes: widget.myPosts)),
                     );
                   },
                 ),

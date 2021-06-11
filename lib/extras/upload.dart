@@ -181,7 +181,7 @@ class _UploadFormState extends State<UploadForm> {
   }
 
   Future updateToFirebase() async {
-    List<String> list = _UploadFormState.ingredientsList.reversed.toList();
+    List<dynamic> list = _UploadFormState.ingredientsList.reversed.toList();
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
       Reference storageReference = FirebaseStorage.instance
@@ -198,7 +198,7 @@ class _UploadFormState extends State<UploadForm> {
   }
 
   Future uploadToFirebase() async {
-    List<String> list = _UploadFormState.ingredientsList.reversed.toList();
+    List<dynamic> list = _UploadFormState.ingredientsList.reversed.toList();
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
       Reference storageReference = FirebaseStorage.instance
