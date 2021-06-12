@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_leh/screens/delete.dart';
+import 'package:recipe_leh/screens/edit.dart';
 
 import '../1/post.dart';
 
@@ -86,14 +88,20 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                               IconButton(
                                                   icon: Icon(Icons.edit,
                                                       color: Colors.black),
-                                                  onPressed: () => {
-                                                        print('edit'),
-                                                      }),
+                                                  onPressed: () => Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => EditForm(
+                                                          user: widget.user,
+                                                          selectedRecipe: widget.selectedRecipe,
+                                                        )),
+                                                  ),),
                                               IconButton(
                                                   icon: Icon(Icons.delete,
                                                       color: Colors.black),
-                                                  onPressed: () =>
-                                                      {print('delete')})
+                                                  onPressed: () => {
+                                                    DeleteDialog(docId: widget.selectedRecipe.id).showDeleteDialog(context)
+                                                  })
                                             ])
                                       : null))
                         ],

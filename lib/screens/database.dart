@@ -15,7 +15,10 @@ class DatabaseService {
 
   Stream<QuerySnapshot> get recipes {
     return recipeCollection.snapshots();
+  }
 
+  delete(String docId){
+    recipeCollection.doc(docId).delete();
   }
 
   Future<List> recipeList() async {

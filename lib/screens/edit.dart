@@ -9,16 +9,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:recipe_leh/screens/database.dart';
 import 'package:path/path.dart';
 
-class UploadForm extends StatefulWidget {
+class EditForm extends StatefulWidget {
   final User user;
-  final String doc;
-  UploadForm({this.user, this.doc});
+  final DocumentSnapshot selectedRecipe;
+  EditForm({this.user, this.selectedRecipe});
 
   @override
-  _UploadFormState createState() => _UploadFormState();
+  _EditFormState createState() => _EditFormState();
 }
 
-class _UploadFormState extends State<UploadForm> {
+class _EditFormState extends State<EditForm> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameController;
   TextEditingController instructionController;
@@ -30,20 +30,11 @@ class _UploadFormState extends State<UploadForm> {
 
   @override
   void initState() {
-    if (widget.doc != null) {
-      databaseService.getDocument('z6wkvBlVEnESFJUyslAp').then((doc) =>
-          setState(() {
-            nameController = TextEditingController(text: doc['name']);
-            instructionController = TextEditingController(text: doc['instructions']);
-            ingredientsList = doc['ingredients'];
-            link = doc['image'];
-          })
-      );
-    } else {
-      nameController = TextEditingController();
-      instructionController = TextEditingController();
-      ingredientsList = [null];
-    }
+    nameController = TextEditingController(text: widget.selectedRecipe['name']);
+    instructionController = TextEditingController(text: widget.selectedRecipe['instructions']);
+    ingredientsList = widget.selectedRecipe['ingredients'];
+    ingredientsList = ingredientsList.reversed.toList();
+    link = widget.selectedRecipe['image'];
     super.initState();
   }
 
@@ -58,7 +49,7 @@ class _UploadFormState extends State<UploadForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(title: Text('New post'),),
+      appBar: AppBar(title: Text("Edit"),),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -103,7 +94,11 @@ class _UploadFormState extends State<UploadForm> {
                   ),
                 ),
                 SizedBox(height: 20,),
-                Container(child: (imageFile == null) ? Text("Image") : Image.file(imageFile),
+                Container(child: (imageFile == null)
+                    ? (link == null)
+                      ? Text("Image")
+                      : Image.network(link)
+                    : Image.file(imageFile),
                   alignment: Alignment.center,
                   height: 200,
                   width: 200,
@@ -122,14 +117,14 @@ class _UploadFormState extends State<UploadForm> {
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue)),
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
-                      uploadToFirebase();
+                      updateToFirebase();
                       setState(() {
                         ingredientsList = [null];
                       });
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => super.widget));
                     }
                   },
-                  child: Text('Post'),
+                  child: Text('Done'),
                 ),
 
               ],
@@ -182,8 +177,9 @@ class _UploadFormState extends State<UploadForm> {
     );
   }
 
-  Future uploadToFirebase() async {
-    List<dynamic> list = _UploadFormState.ingredientsList.reversed.toList();
+  Future updateToFirebase() async {
+    List<dynamic> list = _EditFormState.ingredientsList.reversed.toList();
+    String docId = widget.selectedRecipe.id;
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
       Reference storageReference = FirebaseStorage.instance
@@ -192,10 +188,19 @@ class _UploadFormState extends State<UploadForm> {
       UploadTask uploadTask = storageReference.putFile(imageFile);
       await uploadTask.whenComplete(() => null);
       storageReference.getDownloadURL().then((fileURL) {
-        databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, fileURL);
+        databaseService.recipeCollection.doc(docId).update({
+          'name': nameController.text,
+          'ingredients': list,
+          'instructions': instructionController.text,
+          'image': fileURL,
+        });
       });
     } else {
-      databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, null);
+      databaseService.recipeCollection.doc(docId).update({
+        'name': nameController.text,
+        'ingredients': list,
+        'instructions': instructionController.text,
+      });
     }
   }
 
@@ -271,12 +276,12 @@ class _IngredientTextFieldsState extends State<IngredientTextFields> {
   Widget build(BuildContext context) {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      nameController.text = _UploadFormState.ingredientsList[widget.index] ?? '';
+      nameController.text = _EditFormState.ingredientsList[widget.index] ?? '';
     });
 
     return TextFormField(
       controller: nameController,
-      onChanged: (value) => _UploadFormState.ingredientsList[widget.index] = value,
+      onChanged: (value) => _EditFormState.ingredientsList[widget.index] = value,
       decoration: InputDecoration(
           labelText: 'Enter the ingredients'
       ),
