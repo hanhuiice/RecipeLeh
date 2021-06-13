@@ -45,6 +45,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
       instructions += merger + instruction + "\n\n";
     }
 
+    print(widget.selectedRecipe.reference.id);
+
     return Scaffold(
       // backgroundColor: Colors.grey[200],
       appBar: AppBar(
