@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_leh/screens/delete.dart';
 import 'package:recipe_leh/screens/edit.dart';
+import 'comments.dart';
 
 import '../1/post.dart';
 
@@ -17,13 +18,13 @@ class ViewPostScreen extends StatefulWidget {
 }
 
 class _ViewPostScreenState extends State<ViewPostScreen> {
-  Post post;
+  // Post post;
   bool isSameUser;
 
   @override
   void initState() {
     super.initState();
-    post = posts[0];
+    // post = posts[0];
     isSameUser = widget.user.uid == widget.selectedRecipe['uid'];
     // }
   }
@@ -88,22 +89,30 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: <Widget>[
                                               IconButton(
-                                                  icon: Icon(Icons.edit,
-                                                      color: Colors.black),
-                                                  onPressed: () => Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => EditForm(
-                                                          user: widget.user,
-                                                          selectedRecipe: widget.selectedRecipe,
-                                                        )),
-                                                  ),),
+                                                icon: Icon(Icons.edit,
+                                                    color: Colors.black),
+                                                onPressed: () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditForm(
+                                                            user: widget.user,
+                                                            selectedRecipe: widget
+                                                                .selectedRecipe,
+                                                          )),
+                                                ),
+                                              ),
                                               IconButton(
                                                   icon: Icon(Icons.delete,
                                                       color: Colors.black),
                                                   onPressed: () => {
-                                                    DeleteDialog(docId: widget.selectedRecipe.id).showDeleteDialog(context)
-                                                  })
+                                                        DeleteDialog(
+                                                                docId: widget
+                                                                    .selectedRecipe
+                                                                    .id)
+                                                            .showDeleteDialog(
+                                                                context)
+                                                      })
                                             ])
                                       : null))
                         ],
@@ -195,12 +204,13 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                 Row(
                                   children: <Widget>[
                                     IconButton(
-                                      icon: Icon(Icons.chat),
-                                      iconSize: 30.0,
-                                      onPressed: () {
-                                        print('Chat');
-                                      },
-                                    ),
+                                        icon: Icon(Icons.chat),
+                                        iconSize: 30.0,
+                                        onPressed: () => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    comments()))),
                                     Text(
                                       'HanHui',
                                       style: TextStyle(

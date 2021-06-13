@@ -7,9 +7,9 @@ import 'display_recipes.dart';
 import 'database.dart';
 
 class searchByIngredients extends StatefulWidget {
-
   final User user;
-  searchByIngredients({Key key, this.user}): super(key:key);
+
+  searchByIngredients({Key key, this.user}) : super(key: key);
 
   @override
   _searchByIngredientsState createState() => _searchByIngredientsState();
@@ -23,48 +23,51 @@ class _searchByIngredientsState extends State<searchByIngredients> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: Text('Search By Ingredients'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // name textfield
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Add Ingredients',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-              ),
-              ..._getIngredients(),
-              SizedBox(
-                height: 40,
-              ),
-              ElevatedButton(
-                  onPressed: () => {
-                        if (_formKey.currentState.validate())
-                          {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => displayRecipes(
-                                        user: widget.user, title: "Results", recipes: search())))
-                            // _formKey.currentState.save();
-                          }
-                      },
-                  child: Text('Search'),
-                  style: ElevatedButton.styleFrom(primary: Colors.green)),
-            ],
-          ),
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          title: Text('Search By Ingredients'),
         ),
-      ),
-    );
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // name textfield
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Add Ingredients',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                  ),
+                  ..._getIngredients().reversed,
+                  SizedBox(
+                    height: 40,
+                  ),
+                  ElevatedButton(
+                      onPressed: () => {
+                            if (_formKey.currentState.validate())
+                              {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => displayRecipes(
+                                            user: widget.user,
+                                            title: "Results",
+                                            recipes: search()))),
+                                setState(() {})
+                              }
+                          },
+                      child: Text('Search'),
+                      style: ElevatedButton.styleFrom(primary: Colors.green)),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 
   /// get ingredients text-fields
@@ -80,7 +83,7 @@ class _searchByIngredientsState extends State<searchByIngredients> {
               width: 16,
             ),
             // we need add button at last friends row
-            _addRemoveButton(i == ingredients.length - 1, i),
+            _addRemoveButton(i == 0, i),
           ],
         ),
       ));
@@ -91,7 +94,9 @@ class _searchByIngredientsState extends State<searchByIngredients> {
   Stream search() {
     Stream res;
     if (!ingredients.contains(null)) {
-    res = db.recipeCollection.where('ingredients', arrayContainsAny: ingredients).snapshots();
+      res = db.recipeCollection
+          .where('ingredients', arrayContainsAny: ingredients)
+          .snapshots();
     }
     ingredients = [null];
     return res;
