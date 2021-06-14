@@ -17,8 +17,15 @@ class searchByIngredients extends StatefulWidget {
 
 class _searchByIngredientsState extends State<searchByIngredients> {
   final _formKey = GlobalKey<FormState>();
-  static List<String> ingredients = [null];
+  static List<String> ingredients;
   final DatabaseService db = DatabaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    ingredients = [null];
+  }
+
 
   @override
   Widget build(BuildContext context) {

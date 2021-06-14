@@ -13,8 +13,21 @@ class DatabaseService {
     });
   }
 
+  addComment(String uid, String displayName, String postID, String comment) {
+    final CollectionReference commentsCollection = recipeCollection.doc(postID).collection('comments');
+    commentsCollection.add({
+      'uid' : uid,
+      'displayName': displayName,
+      'comment': comment
+    });
+  }
+
   Stream<QuerySnapshot> get recipes {
     return recipeCollection.snapshots();
+  }
+
+  Stream<QuerySnapshot> comments(String postID) {
+    return recipeCollection.doc(postID).collection('comments').snapshots();
   }
 
   delete(String docId){
@@ -42,7 +55,5 @@ class DatabaseService {
   }
 
 
-  myRecipe(String uid) {
 
-  }
 }
