@@ -4,12 +4,15 @@ class DatabaseService {
   final CollectionReference recipeCollection = FirebaseFirestore.instance.collection('recipe');
 
   addRecipe(String uid, String name, List<dynamic> ingredients, String instructions, String image) {
-    recipeCollection.add({
+    var newDocRef = recipeCollection.doc();
+    newDocRef.set({
+      'docId': newDocRef.id,
       'uid' : uid,
       'name': name,
       'ingredients': ingredients,
       'instructions': instructions,
       'image': image,
+      'timestamp': FieldValue.serverTimestamp(),
     });
   }
 
