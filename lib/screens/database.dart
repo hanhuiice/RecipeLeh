@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
   final CollectionReference recipeCollection = FirebaseFirestore.instance.collection('recipe');
+  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
 
   addRecipe(String uid, String name, List<dynamic> ingredients, String instructions, String image) {
     var newDocRef = recipeCollection.doc();
@@ -16,8 +17,35 @@ class DatabaseService {
     });
   }
 
+  addComment(String uid, String displayName, String postID, String comment) {
+    final CollectionReference commentsCollection = recipeCollection.doc(postID).collection('comments');
+    commentsCollection.add({
+      'uid' : uid,
+      'displayName': displayName,
+      'comment': comment
+    });
+  }
+
+  addUser(String uid, String displayName) {
+    usersCollection.add({
+      'uid' : uid,
+      'displayName' : displayName,
+      'myPosts': [],
+      'saved' : []
+    });
+  }
+
   Stream<QuerySnapshot> get recipes {
     return recipeCollection.snapshots();
+  }
+
+  Stream<QuerySnapshot> get users {
+    return usersCollection.snapshots();
+  }
+
+
+  Stream<QuerySnapshot> comments(String postID) {
+    return recipeCollection.doc(postID).collection('comments').snapshots();
   }
 
   delete(String docId){
@@ -45,7 +73,5 @@ class DatabaseService {
   }
 
 
-  myRecipe(String uid) {
 
-  }
 }

@@ -65,6 +65,11 @@ class _displayRecipes extends State<displayRecipes> {
                   child: CircularProgressIndicator(),
                 );
               }
+              if (snapshot.data.size == 0) {
+                return Center(
+                    child: Text('Recipes not found.')
+                );
+              }
               else {
                 return ListView.builder(
                   itemCount: snapshot.data.size,
