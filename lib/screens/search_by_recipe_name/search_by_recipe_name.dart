@@ -130,8 +130,8 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
                                           builder: (context) =>
                                               ViewPostScreen(
                                                   user: widget.user,
-                                                  selectedRecipe:
-                                                  snapshot.data.docs[index])));
+                                                  selectedRecipe: snapshot.data.docs[index])
+                                      ));
                                 },
                                 title: Text(snapshot.data.docs[index]['name']),
                                 subtitle: Text("Number of likes "),

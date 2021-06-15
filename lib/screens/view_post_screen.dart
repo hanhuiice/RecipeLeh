@@ -6,6 +6,7 @@ import 'package:recipe_leh/screens/edit.dart';
 import 'comments.dart';
 
 import '../1/post.dart';
+import 'database.dart';
 
 class ViewPostScreen extends StatefulWidget {
   final DocumentSnapshot selectedRecipe;
@@ -18,15 +19,63 @@ class ViewPostScreen extends StatefulWidget {
 }
 
 class _ViewPostScreenState extends State<ViewPostScreen> {
-  // Post post;
+  DatabaseService db = DatabaseService();
   bool isSameUser;
+  bool isSaved = false;
 
   @override
   void initState() {
-    super.initState();
-    // post = posts[0];
     isSameUser = widget.user.uid == widget.selectedRecipe['uid'];
-    // }
+    List<dynamic> saved = [];
+    db.usersCollection
+        .where('uid', isEqualTo: widget.user.uid)
+        .get()
+        .then((QuerySnapshot snapshot) => {
+              saved = snapshot.docs[0]['saved'],
+              setState(() {
+                isSaved = (saved.isNotEmpty && saved.contains(widget.selectedRecipe.id));
+              })
+            });
+    super.initState();
+  }
+
+
+
+  saveOrUnsave(String recipeUID) async {
+    List<dynamic> saved = [];
+    String docID;
+    List<dynamic> myPosts;
+    String displayName;
+    String uid;
+
+    await db.usersCollection
+        .where('uid', isEqualTo: widget.user.uid)
+        .get()
+        .then((QuerySnapshot snapshot) => {
+              saved = snapshot.docs[0]['saved'],
+              docID = snapshot.docs[0].reference.id,
+              myPosts = snapshot.docs[0]['myPosts'],
+              displayName = snapshot.docs[0]['displayName'],
+              uid = snapshot.docs[0]['uid'],
+            });
+
+    if (isSaved) {
+      saved.remove(recipeUID);
+      setState(() {
+        isSaved = false;
+      });
+    } else {
+      saved.add(recipeUID);
+      setState(() {
+        isSaved = true;
+      });
+    }
+    db.usersCollection.doc(docID).update({
+      'displayName': displayName,
+      'myPosts': myPosts,
+      'saved': saved,
+      'uid': uid
+    });
   }
 
   @override
@@ -47,8 +96,6 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
       counter += 1;
       instructions += merger + instruction + "\n\n";
     }
-
-    // print(widget.selectedRecipe.reference.id);
 
     return Scaffold(
         // backgroundColor: Colors.grey[200],
@@ -234,11 +281,21 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                     ),
                                   ],
                                 ),
-                                IconButton(
-                                  icon: Icon(Icons.bookmark_border),
-                                  iconSize: 30.0,
-                                  onPressed: () => print('Save post'),
-                                ),
+                                isSaved
+                                    ? IconButton(
+                                        icon: Icon(Icons.bookmark),
+                                        iconSize: 30.0,
+                                        onPressed: () => {
+                                              saveOrUnsave(widget
+                                                  .selectedRecipe.reference.id)
+                                            })
+                                    : IconButton(
+                                        icon: Icon(Icons.bookmark_border),
+                                        iconSize: 30.0,
+                                        onPressed: () => {
+                                              saveOrUnsave(widget
+                                                  .selectedRecipe.reference.id)
+                                            }),
                               ],
                             ),
                           ),

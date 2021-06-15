@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import 'database.dart';
+
 class EmailSignUp extends StatefulWidget {
   @override
   _EmailSignUpState createState() => _EmailSignUpState();
@@ -117,7 +119,9 @@ class _EmailSignUpState extends State<EmailSignUp> {
           });
           result.user.updateProfile(displayName: nameController.text);
           Navigator.pop(context);
-      }).catchError((err) {
+          DatabaseService db = DatabaseService();
+          db.addUser(result.user.uid, nameController.text);
+    }).catchError((err) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
