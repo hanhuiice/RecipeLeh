@@ -80,6 +80,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     String ingredients = "";
 
     for (String ingredient in widget.selectedRecipe['ingredients']) {

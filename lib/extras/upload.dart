@@ -181,8 +181,16 @@ class _UploadFormState extends State<UploadForm> {
       ),
     );
   }
-
+//   databaseService.recipeCollection.doc(docId).update({
+//   'name': nameController.text,
+//   'ingredients': list,
+//   'instructions': instructionController.text,
+//   'image': fileURL,
+//   });
+// });
   Future uploadToFirebase() async {
+    //add recipes
+    String recipeID;
     List<dynamic> list = _UploadFormState.ingredientsList.reversed.toList();
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
@@ -192,11 +200,39 @@ class _UploadFormState extends State<UploadForm> {
       UploadTask uploadTask = storageReference.putFile(imageFile);
       await uploadTask.whenComplete(() => null);
       storageReference.getDownloadURL().then((fileURL) {
-        databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, fileURL);
+        recipeID = databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, fileURL);
       });
     } else {
-      databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, null);
+      recipeID = databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, null);
     }
+
+    // //update user post
+    String docId;
+    String displayName;
+    List<dynamic> myPosts;
+    List<dynamic> saved;
+    String uid;
+
+    await databaseService.usersCollection
+        .where('uid', isEqualTo: widget.user.uid)
+        .get()
+        .then((QuerySnapshot snapshot) =>
+    {
+      docId = snapshot.docs[0].reference.id,
+      displayName = snapshot.docs[0]['displayName'],
+      myPosts = snapshot.docs[0]['myPosts'],
+      saved = snapshot.docs[0]['saved'],
+      uid = snapshot.docs[0]['uid'],
+    });
+
+    myPosts.add(recipeID);
+
+    databaseService.usersCollection.doc(docId).update({
+      'displayName': displayName,
+      'myPosts': myPosts,
+      'saved': saved,
+      'uid' : uid
+    });
   }
 
   Future _showChoiceDialog(BuildContext context) {
