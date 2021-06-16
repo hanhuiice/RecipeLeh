@@ -14,6 +14,7 @@ class DatabaseService {
       'instructions': instructions,
       'image': image,
       'timestamp': FieldValue.serverTimestamp(),
+      'likes': [],
     });
   }
 
@@ -22,7 +23,8 @@ class DatabaseService {
     commentsCollection.add({
       'uid' : uid,
       'displayName': displayName,
-      'comment': comment
+      'comment': comment,
+      'timestamp': FieldValue.serverTimestamp(),
     });
   }
 

@@ -47,7 +47,8 @@ class _commentsState extends State<comments> {
                                     child: ListTile(
                                       leading: Text(snapshot.data.docs[index]['displayName']),
                                       title: Text(snapshot.data.docs[index]['comment']),
-                                      subtitle: Text("Times ago?"),
+                                      subtitle: Text((widget.selectedRecipe['timestamp'] as Timestamp).toDate().difference(DateTime.now()).inDays.toString()
+                                          + " days ago"),
                                     ));
                               },
                             );

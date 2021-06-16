@@ -22,10 +22,12 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   DatabaseService db = DatabaseService();
   bool isSameUser;
   bool isSaved = false;
+  bool isLiked = false;
 
   @override
   void initState() {
     isSameUser = widget.user.uid == widget.selectedRecipe['uid'];
+    isLiked = (widget.selectedRecipe['likes'] as List).contains(widget.user.uid);
     List<dynamic> saved = [];
     db.usersCollection
         .where('uid', isEqualTo: widget.user.uid)
@@ -38,8 +40,6 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
             });
     super.initState();
   }
-
-
 
   saveOrUnsave(String recipeUID) async {
     List<dynamic> saved = [];
@@ -75,6 +75,24 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
       'myPosts': myPosts,
       'saved': saved,
       'uid': uid
+    });
+  }
+
+  like() async {
+    List<dynamic> likes = (await db.recipeCollection.doc(widget.selectedRecipe.id).get())['likes'];
+    if (isLiked) {
+      likes.remove(widget.user.uid);
+      setState(() {
+        isLiked = false;
+      });
+    } else {
+      likes.add(widget.user.uid);
+      setState(() {
+        isLiked = true;
+      });
+    }
+    db.recipeCollection.doc(widget.selectedRecipe.id).update({
+      'likes': likes,
     });
   }
 
@@ -133,7 +151,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      subtitle: Text("Time ago?"),
+                                      subtitle: Text((widget.selectedRecipe['timestamp'] as Timestamp).toDate().difference(DateTime.now()).inDays.toString()
+                                      + " days ago"),
                                       trailing: isSameUser
                                           ? Row(
                                               mainAxisSize: MainAxisSize.min,
@@ -244,9 +263,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                     Row(
                                       children: <Widget>[
                                         IconButton(
-                                          icon: Icon(Icons.favorite_border),
+                                          icon: Icon((isLiked) ? Icons.favorite : Icons.favorite_border),
                                           iconSize: 30.0,
-                                          onPressed: () => print('Like post'),
+                                          onPressed: () => like(),
                                         ),
                                         Text(
                                           'Fuck you',
