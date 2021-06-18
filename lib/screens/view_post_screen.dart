@@ -170,11 +170,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      subtitle: Text(
-                                          (widget.selectedRecipe['timestamp']
-                                                      as Timestamp)
-                                                  .toDate()
-                                                  .difference(DateTime.now())
+                                      subtitle: Text(DateTime.now()
+                                                  .difference((widget.selectedRecipe['timestamp'] as Timestamp).toDate())
                                                   .inDays
                                                   .toString() +
                                               " days ago"),
@@ -197,7 +194,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                                                     widget
                                                                         .selectedRecipe,
                                                               )),
-                                                    ),
+                                                    ).then((value) => Navigator.pop(context)),
                                                   ),
                                                   IconButton(
                                                       icon: Icon(Icons.delete,
