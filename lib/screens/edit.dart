@@ -121,7 +121,7 @@ class _EditFormState extends State<EditForm> {
                       setState(() {
                         ingredientsList = [null];
                       });
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => super.widget));
+                      Navigator.pop(context);
                     }
                   },
                   child: Text('Done'),
