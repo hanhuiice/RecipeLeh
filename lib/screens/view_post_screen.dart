@@ -133,11 +133,14 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
       counter += 1;
       instructions += merger + instruction + "\n\n";
     }
-
     return Scaffold(
         // backgroundColor: Colors.grey[200],
         appBar: AppBar(
           title: Text('Post'),
+          leading: IconButton(icon: Icon(Icons.arrow_back),
+          onPressed: () => {
+            moveToLastScreen(),
+          })
         ),
         body: Container(
             child: SingleChildScrollView(
@@ -369,4 +372,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
           ),
         )));
   }
+
+  void moveToLastScreen() {
+    Navigator.pop(context);
+  }
+
 }

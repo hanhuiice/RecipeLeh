@@ -26,53 +26,21 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
   final String title = "Search By Name Of Recipe";
   final DatabaseService db = DatabaseService();
   String query = '';
-
-  // List recipes;
-
   Stream<QuerySnapshot> recipeStream;
-
-  Timer debouncer;
 
   @override
   void initState() {
     super.initState();
 
     recipeStream = db.recipes;
-    //init();
+
   }
 
   @override
   void dispose() {
-    debouncer.cancel();
     super.dispose();
   }
 
-  void debounce(
-    VoidCallback callback, {
-    Duration duration = const Duration(milliseconds: 1000),
-  }) {
-    if (debouncer != null) {
-      debouncer.cancel();
-    }
-
-    debouncer = Timer(duration, callback);
-  }
-
-  // Future init() async {
-  //   final recipes = await db.recipeCollection
-  //       .where(('name').toLowerCase(), isEqualTo: query)
-  //       .snapshots()
-  //       .toList();
-  //
-  //   final recipeStream = db.recipeCollection
-  //       .where(('name').toLowerCase(), isEqualTo: query)
-  //       .snapshots();
-  //
-  //   setState(() {
-  //     this.recipes = recipes;
-  //     this.recipeStream = recipeStream;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +185,6 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
   getSaved() {
     //using saved list find all the recipes
     Stream<QuerySnapshot> saved;
-    print(savedList);
     widget.db.usersCollection
         .where('uid', isEqualTo: widget.user.uid)
         .get()
@@ -305,7 +272,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                           builder: (context) => displayRecipes(
                               user: widget.user,
                               title: "Saved Recipes",
-                              recipes: getSaved())),
+                              isMyPosts: false)),
                     )),
             title: Text('Saved Recipes'),
             onTap: () {
@@ -315,7 +282,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                     builder: (context) => displayRecipes(
                         user: widget.user,
                         title: "Saved Recipes ",
-                        recipes: getSaved())),
+                      isMyPosts: false)),
               );
             },
           ),
@@ -368,7 +335,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                                 builder: (context) => displayRecipes(
                                     user: widget.user,
                                     title: "My Posts",
-                                    recipes: getMyPosts())),
+                                    isMyPosts: true)),
                           )),
                   title: Text('My Posts'),
                   onTap: () {
@@ -378,7 +345,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                           builder: (context) => displayRecipes(
                               user: widget.user,
                               title: "My Posts",
-                              recipes: getMyPosts())),
+                              isMyPosts: true)),
                     );
                   },
                 ),

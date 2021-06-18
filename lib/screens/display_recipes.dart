@@ -12,8 +12,9 @@ class displayRecipes extends StatefulWidget {
   String title;
   Stream<QuerySnapshot> recipes;
   List<dynamic> ingredientList;
+  bool isMyPosts;
 
-  displayRecipes({Key key, this.title, this.recipes, this.user, this.ingredientList})
+  displayRecipes({Key key, this.title, this.recipes, this.user, this.ingredientList, this.isMyPosts})
       : super(key: key);
 
   @override
@@ -22,11 +23,54 @@ class displayRecipes extends StatefulWidget {
 
 class _displayRecipes extends State<displayRecipes> {
   final DatabaseService db = DatabaseService();
+  List<dynamic> savedList = [];
+
 
   @override
   void initState() {
+    init();
     super.initState();
   }
+
+  Future init() async {
+    //get saved list
+    await db.usersCollection
+        .where('uid', isEqualTo: widget.user.uid)
+        .get()
+        .then((QuerySnapshot snapshot) => {
+      setState(() => {
+        savedList = snapshot.docs[0]['saved'],
+      })
+    });
+  }
+
+  Stream<QuerySnapshot> getMyPosts() {
+    return db.recipeCollection
+        .where('uid', isEqualTo: widget.user.uid)
+        .snapshots();
+  }
+
+  getSaved() {
+    //using saved list find all the recipes
+    Stream<QuerySnapshot> saved;
+    db.usersCollection
+        .where('uid', isEqualTo: widget.user.uid)
+        .get()
+        .then((QuerySnapshot snapshot) => {
+      savedList = snapshot.docs[0]['saved'],
+    });
+
+    if (savedList.isEmpty) {
+      saved = db.recipeCollection
+          .where('docID', arrayContains: []).snapshots();
+    } else {
+      saved = db.recipeCollection
+          .where('docID', arrayContainsAny: savedList)
+          .snapshots();
+    }
+    return saved;
+  }
+
 
   Widget recipeTemplate(recipe) {
     return Card(
@@ -58,7 +102,7 @@ class _displayRecipes extends State<displayRecipes> {
     return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
         body: StreamBuilder(
-            stream: widget.recipes,
+            stream: (widget.isMyPosts ? getMyPosts() : getSaved()),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
@@ -80,7 +124,6 @@ class _displayRecipes extends State<displayRecipes> {
                   List<dynamic> alist = a.get('ingredients');
                   List<dynamic> blist = b.get('ingredients');
                   widget.ingredientList.forEach((element) {
-                    // print(element);
                     if(alist.contains(element)) {
                       acount++;
                     }
@@ -90,10 +133,8 @@ class _displayRecipes extends State<displayRecipes> {
                   });
                   return bcount - acount;
                 });
-                // print(c[0]['ingredients']);
 
                 }
-                // print(c[0]['ingredients']);
                 return ListView.builder(
                   itemCount: c.length,
                   itemBuilder: (BuildContext context, int index)  {
@@ -105,13 +146,22 @@ class _displayRecipes extends State<displayRecipes> {
                           MaterialPageRoute(
                               builder: (context) => ViewPostScreen(
                                   user: widget.user,
-                                  selectedRecipe: c[index])));
+                                  selectedRecipe: c[index]))).then((value) => db.usersCollection
+                          .where('uid', isEqualTo: widget.user.uid)
+                          .get()
+                          .then((QuerySnapshot snapshot) => {
+                        setState(() => {
+                          savedList = snapshot.docs[0]['saved'],
+                        })
+                      }));
                     },
                     title: Text(c[index]['name']),
                     subtitle: Text("Number of likes: " + (c[index]['likes'] as List).length.toString()),
                   ));
                 },
               );}
-            }));
+                }),
+        );
+
   }
 }
