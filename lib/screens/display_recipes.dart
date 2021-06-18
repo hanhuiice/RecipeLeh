@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_leh/screens/view_post_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'view_post_screen.dart';
+import 'viewPostScreen/view_post_screen.dart';
 import 'database.dart';
 
 class displayRecipes extends StatefulWidget {
@@ -72,17 +70,6 @@ class _displayRecipes extends State<displayRecipes> {
           .snapshots();
     }
     return saved;
-  }
-
-  Stream search() {
-    Stream res;
-    if (!widget.ingredientList.contains(null)) {
-      res = db.recipeCollection
-          .where('ingredients', arrayContainsAny: widget.ingredientList)
-          .snapshots();
-    }
-    widget.ingredientList = [null];
-    return res;
   }
 
 

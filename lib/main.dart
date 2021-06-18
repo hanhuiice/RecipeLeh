@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 import 'screens/search_by_recipe_name/search_by_recipe_name.dart';
-import 'extras/signup.dart';
-import 'screens/email_login.dart';
+import 'screens/loginAndSignup/email_login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

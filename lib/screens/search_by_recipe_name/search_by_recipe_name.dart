@@ -1,16 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_leh/screens/view_post_screen.dart';
-import 'package:recipe_leh/extras/upload.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 
+import '../upload/upload.dart';
+import '../viewPostScreen/view_post_screen.dart';
 import '../display_recipes.dart';
-import '../email_login.dart';
+import '../loginAndSignup/email_login.dart';
 import 'search_widget.dart';
 import '../search_by_ingredients.dart';
-import '../email_signup.dart';
-import '../view_post_screen.dart';
+import '../loginAndSignup/email_signup.dart';
 import '../database.dart';
 
 class searchByRecipeName extends StatefulWidget {

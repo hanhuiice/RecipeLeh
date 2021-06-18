@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_leh/screens/delete.dart';
-import 'package:recipe_leh/screens/edit.dart';
-import 'comments.dart';
 
-import 'database.dart';
+
+import 'functions/comments.dart';
+import '../viewPostScreen/functions/delete.dart';
+import '../viewPostScreen/functions/edit.dart';
+import '../database.dart';
 
 class ViewPostScreen extends StatefulWidget {
   final DocumentSnapshot selectedRecipe;

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'database.dart';
+import '../../database.dart';
 
 class comments extends StatefulWidget {
   final DocumentSnapshot selectedRecipe;
