@@ -26,10 +26,9 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
   final String title = "Search By Name Of Recipe";
   final DatabaseService db = DatabaseService();
   String query = '';
-  List recipes;
 
-  // List recipes = ['123', '456'];
-  // List<dynamic> hardcode = ['123', '456'];
+  // List recipes;
+
   Stream<QuerySnapshot> recipeStream;
 
   Timer debouncer;
@@ -59,21 +58,21 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
     debouncer = Timer(duration, callback);
   }
 
-  Future init() async {
-    final recipes = await db.recipeCollection
-        .where(('name').toLowerCase(), isEqualTo: query)
-        .snapshots()
-        .toList();
-
-    final recipeStream = db.recipeCollection
-        .where(('name').toLowerCase(), isEqualTo: query)
-        .snapshots();
-
-    setState(() {
-      this.recipes = recipes;
-      this.recipeStream = recipeStream;
-    });
-  }
+  // Future init() async {
+  //   final recipes = await db.recipeCollection
+  //       .where(('name').toLowerCase(), isEqualTo: query)
+  //       .snapshots()
+  //       .toList();
+  //
+  //   final recipeStream = db.recipeCollection
+  //       .where(('name').toLowerCase(), isEqualTo: query)
+  //       .snapshots();
+  //
+  //   setState(() {
+  //     this.recipes = recipes;
+  //     this.recipeStream = recipeStream;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +111,10 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
                       );
                     } else {
                       List<QueryDocumentSnapshot> c = snapshot.data.docs;
-                      c.sort((a, b){
-                        return (b.get('likes') as List).length.compareTo((a.get('likes') as List).length);
+                      c.sort((a, b) {
+                        return (b.get('likes') as List)
+                            .length
+                            .compareTo((a.get('likes') as List).length);
                       });
                       return ListView.builder(
                         itemCount: c.length,
@@ -126,11 +127,11 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
                                   MaterialPageRoute(
                                       builder: (context) => ViewPostScreen(
                                           user: widget.user,
-                                          selectedRecipe:
-                                              c[index])));
+                                          selectedRecipe: c[index])));
                             },
                             title: Text(c[index]['name']),
-                            subtitle: Text("Number of likes: " + (c[index]['likes'] as List).length.toString()),
+                            subtitle: Text("Number of likes: " +
+                                (c[index]['likes'] as List).length.toString()),
                           ));
                         },
                       );
@@ -149,16 +150,30 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
       );
 
   void searchRecipe(String query) {
-        print('here');
-        Stream<QuerySnapshot> s = db.recipeCollection
-            .where(('name').toLowerCase(), isEqualTo: query)
-            .snapshots();
+    Stream<QuerySnapshot> s;
+    if (query.length == 0) {
+      s = db.recipes;
+    } else {
+      var strSearch = query.toLowerCase();
+      var strlength = strSearch.length;
+      var strFrontCode = strSearch.substring(0, strlength - 1);
+      var strEndCode = strSearch.substring(strlength - 1, strSearch.length);
 
-        setState(() {
-          this.query = query;
-          this.recipeStream = s;
-        });
-      }
+      var startcode = strSearch;
+      var endcode =
+          strFrontCode + String.fromCharCode(strEndCode.codeUnitAt(0) + 1);
+
+      s = db.recipeCollection
+          .where(('name').toLowerCase(), isGreaterThanOrEqualTo: startcode)
+          .where(('name').toLowerCase(), isLessThan: endcode)
+          .snapshots();
+    }
+
+    setState(() {
+      this.query = query;
+      this.recipeStream = s;
+    });
+  }
 }
 
 class NavigateDrawer extends StatefulWidget {
@@ -186,17 +201,14 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
     await widget.db.usersCollection
         .where('uid', isEqualTo: widget.user.uid)
         .get()
-        .then((QuerySnapshot snapshot) =>
-    {
-      setState(() =>
-      {
-        savedList = snapshot.docs[0]['saved'],
-      })});
+        .then((QuerySnapshot snapshot) => {
+              setState(() => {
+                    savedList = snapshot.docs[0]['saved'],
+                  })
+            });
   }
 
-
   Stream<QuerySnapshot> getMyPosts() {
-
     return widget.db.recipeCollection
         .where('uid', isEqualTo: widget.user.uid)
         .snapshots();
@@ -211,7 +223,6 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
         .get()
         .then((QuerySnapshot snapshot) => {
               savedList = snapshot.docs[0]['saved'],
-              // print(savedList),
             });
 
     if (savedList.isEmpty) {
@@ -281,6 +292,10 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
             },
           ),
           // saved recipes
+          widget.user.isAnonymous
+          // empty
+              ? new Container()
+          :
           ListTile(
             leading: new IconButton(
                 icon: new Icon(Icons.bookmark, color: Colors.black),

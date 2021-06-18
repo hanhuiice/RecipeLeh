@@ -19,13 +19,13 @@ class _searchByIngredientsState extends State<searchByIngredients> {
   final _formKey = GlobalKey<FormState>();
   static List<String> ingredients;
   final DatabaseService db = DatabaseService();
+  List<String> copyOfIngredients;
 
   @override
   void initState() {
     super.initState();
     ingredients = [null];
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +56,17 @@ class _searchByIngredientsState extends State<searchByIngredients> {
                   ),
                   ElevatedButton(
                       onPressed: () => {
-                            if (_formKey.currentState.validate())
+                        if (_formKey.currentState.validate())
                               {
-                                Navigator.push(
+                                copyOfIngredients = ingredients,
+                      Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => displayRecipes(
                                             user: widget.user,
                                             title: "Results",
-                                            recipes: search()))),
+                                            recipes: search(),
+                                            ingredientList: copyOfIngredients))),
                                 setState(() {})
                               }
                           },

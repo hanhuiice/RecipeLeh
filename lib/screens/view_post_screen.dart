@@ -5,7 +5,6 @@ import 'package:recipe_leh/screens/delete.dart';
 import 'package:recipe_leh/screens/edit.dart';
 import 'comments.dart';
 
-import '../1/post.dart';
 import 'database.dart';
 
 class ViewPostScreen extends StatefulWidget {
@@ -23,21 +22,39 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   bool isSameUser;
   bool isSaved = false;
   bool isLiked = false;
+  int numberOfComments;
 
   @override
   void initState() {
     isSameUser = widget.user.uid == widget.selectedRecipe['uid'];
-    isLiked = (widget.selectedRecipe['likes'] as List).contains(widget.user.uid);
+    isLiked =
+        (widget.selectedRecipe['likes'] as List).contains(widget.user.uid);
     List<dynamic> saved = [];
-    db.usersCollection
-        .where('uid', isEqualTo: widget.user.uid)
+    widget.user.isAnonymous
+        ? setState(() {
+            isSaved = false;
+          })
+        : db.usersCollection
+            .where('uid', isEqualTo: widget.user.uid)
+            .get()
+            .then((QuerySnapshot snapshot) => {
+                  saved = snapshot.docs[0]['saved'],
+                  setState(() {
+                    isSaved = (saved.isNotEmpty &&
+                        saved.contains(widget.selectedRecipe.id));
+                  })
+                });
+
+    db.recipeCollection
+        .doc(widget.selectedRecipe.id)
+        .collection('comments')
         .get()
-        .then((QuerySnapshot snapshot) => {
-              saved = snapshot.docs[0]['saved'],
+        .then((value) => {
               setState(() {
-                isSaved = (saved.isNotEmpty && saved.contains(widget.selectedRecipe.id));
+                numberOfComments = value.size;
               })
             });
+
     super.initState();
   }
 
@@ -79,7 +96,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   }
 
   like() async {
-    List<dynamic> likes = (await db.recipeCollection.doc(widget.selectedRecipe.id).get())['likes'];
+    List<dynamic> likes = (await db.recipeCollection
+        .doc(widget.selectedRecipe.id)
+        .get())['likes'];
     if (isLiked) {
       likes.remove(widget.user.uid);
       setState(() {
@@ -98,7 +117,6 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     String ingredients = "";
 
     for (String ingredient in widget.selectedRecipe['ingredients']) {
@@ -152,8 +170,14 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      subtitle: Text((widget.selectedRecipe['timestamp'] as Timestamp).toDate().difference(DateTime.now()).inDays.toString()
-                                      + " days ago"),
+                                      subtitle: Text(
+                                          (widget.selectedRecipe['timestamp']
+                                                      as Timestamp)
+                                                  .toDate()
+                                                  .difference(DateTime.now())
+                                                  .inDays
+                                                  .toString() +
+                                              " days ago"),
                                       trailing: isSameUser
                                           ? Row(
                                               mainAxisSize: MainAxisSize.min,
@@ -263,13 +287,21 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
-                                        IconButton(
-                                          icon: Icon((isLiked) ? Icons.favorite : Icons.favorite_border),
-                                          iconSize: 30.0,
-                                          onPressed: () => like(),
-                                        ),
+                                        widget.user.isAnonymous
+                                            ? IconButton(
+                                                icon:
+                                                    Icon(Icons.favorite_border),
+                                                iconSize: 30.0)
+                                            : IconButton(
+                                                icon: Icon((isLiked)
+                                                    ? Icons.favorite
+                                                    : Icons.favorite_border),
+                                                iconSize: 30.0,
+                                                onPressed: () => like(),
+                                              ),
                                         Text(
-                                          'Fuck you',
+                                          widget.selectedRecipe['likes'].length
+                                              .toString(),
                                           style: TextStyle(
                                             fontSize: 14.0,
                                             fontWeight: FontWeight.w600,
@@ -290,13 +322,21 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                                         user: widget.user,
                                                         selectedRecipe: widget
                                                             .selectedRecipe)))),
-                                        Text(
-                                          'HanHui',
-                                          style: TextStyle(
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
+                                        (numberOfComments == null)
+                                            ? Text(
+                                                '0',
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              )
+                                            : Text(
+                                                numberOfComments.toString(),
+                                                style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
                                       ],
                                     ),
                                   ],

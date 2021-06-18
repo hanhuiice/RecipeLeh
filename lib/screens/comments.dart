@@ -57,6 +57,9 @@ class _commentsState extends State<comments> {
                   ),
                 ),
                   Divider(),
+                (widget.user.isAnonymous) ?
+                    new Container()
+                    :
                   ListTile(
                     title: TextFormField(
                       controller: commentController,

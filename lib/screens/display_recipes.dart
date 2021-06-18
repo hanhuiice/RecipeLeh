@@ -11,8 +11,9 @@ class displayRecipes extends StatefulWidget {
   User user;
   String title;
   Stream<QuerySnapshot> recipes;
+  List<dynamic> ingredientList;
 
-  displayRecipes({Key key, this.title, this.recipes, this.user})
+  displayRecipes({Key key, this.title, this.recipes, this.user, this.ingredientList})
       : super(key: key);
 
   @override
@@ -72,13 +73,14 @@ class _displayRecipes extends State<displayRecipes> {
               }
               else {
                 List<QueryDocumentSnapshot> c = snapshot.data.docs;
-                c.sort((a,b){
+                if (widget.ingredientList != null) {
+                c.sort((a,b) {
                   int acount = 0;
                   int bcount = 0;
                   List<dynamic> alist = a.get('ingredients');
                   List<dynamic> blist = b.get('ingredients');
-                  List<String> intgredients = ['1', '2'];
-                  intgredients.forEach((element) {
+                  widget.ingredientList.forEach((element) {
+                    // print(element);
                     if(alist.contains(element)) {
                       acount++;
                     }
@@ -88,6 +90,10 @@ class _displayRecipes extends State<displayRecipes> {
                   });
                   return bcount - acount;
                 });
+                // print(c[0]['ingredients']);
+
+                }
+                // print(c[0]['ingredients']);
                 return ListView.builder(
                   itemCount: c.length,
                   itemBuilder: (BuildContext context, int index)  {
