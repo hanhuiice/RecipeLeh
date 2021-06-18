@@ -189,13 +189,17 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
     await widget.db.usersCollection
         .where('uid', isEqualTo: widget.user.uid)
         .get()
-        .then((QuerySnapshot snapshot) => {
-          setState(() => {
-      savedList = snapshot.docs[0]['saved'],
-    })});
+        .then((QuerySnapshot snapshot) =>
+    {
+      setState(() =>
+      {
+        savedList = snapshot.docs[0]['saved'],
+      })});
   }
 
+
   Stream<QuerySnapshot> getMyPosts() {
+
     return widget.db.recipeCollection
         .where('uid', isEqualTo: widget.user.uid)
         .snapshots();
@@ -210,7 +214,7 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
         .get()
         .then((QuerySnapshot snapshot) => {
               savedList = snapshot.docs[0]['saved'],
-              print(savedList),
+              // print(savedList),
             });
 
     if (savedList.isEmpty) {

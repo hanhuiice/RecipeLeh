@@ -50,6 +50,7 @@ class DeleteDialog {
    db.usersCollection
         .where('saved', arrayContains: docId).snapshots().listen((
         QuerySnapshot snapshot) {
+          if (snapshot.size != 0) {
      saved = snapshot.docs[0]['saved'];
      userDocID = snapshot.docs[0].reference.id;
      myPosts = snapshot.docs[0]['myPosts'];
@@ -66,12 +67,13 @@ class DeleteDialog {
        'saved': saved,
        'uid': uid
      });
-   });
+   }});
 
       // for users that post deleted recipe
       db.usersCollection
         .where('myPosts', arrayContains: docId).snapshots().listen((
         QuerySnapshot snapshot) {
+      if (snapshot.size != 0) {
       saved = snapshot.docs[0]['saved'];
       userDocID = snapshot.docs[0].reference.id;
       myPosts = snapshot.docs[0]['myPosts'];
@@ -88,29 +90,8 @@ class DeleteDialog {
         'saved': saved,
         'uid': uid
       });
-    });
+    }});
   }
 }
 
-    //   usersThatSavedRecipe.forEach((QuerySnapshot snapshot) =>
-    //   {
-    //     saved = snapshot['sa,
-    //     userDocID = snapshot.docs.reference.id,
-    //     myPosts = snapshot.docs['myPosts'],
-    //     displayName = snapshot.docs['displayName'],
-    //     uid = snapshot.docs['uid'],
-    //
-    //     //remove deleted recipe from saved
-    //     saved.remove(docId),
-    //     print(saved),
-    //
-    //     //update user
-    //     db.usersCollection.doc(userDocID).update({
-    //       'displayName': displayName,
-    //       'myPosts': myPosts,
-    //       'saved': saved,
-    //       'uid': uid
-    //     })
-    //   });
-    // }
 
