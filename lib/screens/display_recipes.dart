@@ -12,9 +12,10 @@ class displayRecipes extends StatefulWidget {
   String title;
   Stream<QuerySnapshot> recipes;
   List<dynamic> ingredientList;
+  // to check whether users is at myPosts or savedRecipes
   bool isMyPosts;
 
-  displayRecipes({Key key, this.title, this.recipes, this.user, this.ingredientList, this.isMyPosts})
+  displayRecipes({Key key, this.title, this.user, this.recipes, this.ingredientList, this.isMyPosts})
       : super(key: key);
 
   @override
@@ -23,6 +24,8 @@ class displayRecipes extends StatefulWidget {
 
 class _displayRecipes extends State<displayRecipes> {
   final DatabaseService db = DatabaseService();
+
+  // have to initialise bcos it returns a future value
   List<dynamic> savedList = [];
 
 
@@ -71,6 +74,17 @@ class _displayRecipes extends State<displayRecipes> {
     return saved;
   }
 
+  Stream search() {
+    Stream res;
+    if (!widget.ingredientList.contains(null)) {
+      res = db.recipeCollection
+          .where('ingredients', arrayContainsAny: widget.ingredientList)
+          .snapshots();
+    }
+    widget.ingredientList = [null];
+    return res;
+  }
+
 
   Widget recipeTemplate(recipe) {
     return Card(
@@ -102,7 +116,7 @@ class _displayRecipes extends State<displayRecipes> {
     return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
         body: StreamBuilder(
-            stream: (widget.isMyPosts ? getMyPosts() : getSaved()),
+            stream: (widget.recipes == null ? widget.isMyPosts ? getMyPosts() : getSaved() : widget.recipes),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {

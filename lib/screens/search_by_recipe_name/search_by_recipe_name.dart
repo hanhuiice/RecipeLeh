@@ -156,52 +156,52 @@ class NavigateDrawer extends StatefulWidget {
 
 class _NavigateDrawerState extends State<NavigateDrawer> {
   // have to initialise bcos it returns a future value
-  List<dynamic> savedList = [];
+  // List<dynamic> savedList = [];
 
   @override
   void initState() {
     super.initState();
-    init();
+    // init();
   }
 
-  Future init() async {
-    //get saved list
-    await widget.db.usersCollection
-        .where('uid', isEqualTo: widget.user.uid)
-        .get()
-        .then((QuerySnapshot snapshot) => {
-              setState(() => {
-                    savedList = snapshot.docs[0]['saved'],
-                  })
-            });
-  }
+  // Future init() async {
+  //   //get saved list
+  //   await widget.db.usersCollection
+  //       .where('uid', isEqualTo: widget.user.uid)
+  //       .get()
+  //       .then((QuerySnapshot snapshot) => {
+  //             setState(() => {
+  //                   savedList = snapshot.docs[0]['saved'],
+  //                 })
+  //           });
+  // }
 
-  Stream<QuerySnapshot> getMyPosts() {
-    return widget.db.recipeCollection
-        .where('uid', isEqualTo: widget.user.uid)
-        .snapshots();
-  }
-
-  getSaved() {
-    //using saved list find all the recipes
-    Stream<QuerySnapshot> saved;
-    widget.db.usersCollection
-        .where('uid', isEqualTo: widget.user.uid)
-        .get()
-        .then((QuerySnapshot snapshot) => {
-              savedList = snapshot.docs[0]['saved'],
-            });
-
-    if (savedList.isEmpty) {
-      saved = widget.db.recipeCollection
-          .where('docID', arrayContains: []).snapshots();
-    } else {
-      saved = widget.db.recipeCollection
-          .where('docID', arrayContainsAny: savedList)
-          .snapshots();
-    }
-    return saved;
-  }
+  // Stream<QuerySnapshot> getMyPosts() {
+  //   return widget.db.recipeCollection
+  //       .where('uid', isEqualTo: widget.user.uid)
+  //       .snapshots();
+  // }
+  //
+  // getSaved() {
+  //   //using saved list find all the recipes
+  //   Stream<QuerySnapshot> saved;
+  //   widget.db.usersCollection
+  //       .where('uid', isEqualTo: widget.user.uid)
+  //       .get()
+  //       .then((QuerySnapshot snapshot) => {
+  //             savedList = snapshot.docs[0]['saved'],
+  //           });
+  //
+  //   if (savedList.isEmpty) {
+  //     saved = widget.db.recipeCollection
+  //         .where('docID', arrayContains: []).snapshots();
+  //   } else {
+  //     saved = widget.db.recipeCollection
+  //         .where('docID', arrayContainsAny: savedList)
+  //         .snapshots();
+  //   }
+  //   return saved;
+  // }
 
   @override
   Widget build(BuildContext context) {
