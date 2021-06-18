@@ -11,8 +11,7 @@ import 'package:path/path.dart';
 
 class UploadForm extends StatefulWidget {
   final User user;
-  final String doc;
-  UploadForm({this.user, this.doc});
+  UploadForm({this.user});
 
   @override
   _UploadFormState createState() => _UploadFormState();
@@ -30,20 +29,9 @@ class _UploadFormState extends State<UploadForm> {
 
   @override
   void initState() {
-    if (widget.doc != null) {
-      databaseService.getDocument('z6wkvBlVEnESFJUyslAp').then((doc) =>
-          setState(() {
-            nameController = TextEditingController(text: doc['name']);
-            instructionController = TextEditingController(text: doc['instructions']);
-            ingredientsList = doc['ingredients'];
-            link = doc['image'];
-          })
-      );
-    } else {
-      nameController = TextEditingController();
-      instructionController = TextEditingController();
-      ingredientsList = [null];
-    }
+    nameController = TextEditingController();
+    instructionController = TextEditingController();
+    ingredientsList = [null];
     super.initState();
   }
 

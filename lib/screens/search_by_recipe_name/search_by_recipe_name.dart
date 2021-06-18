@@ -39,7 +39,7 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
     super.initState();
 
     recipeStream = db.recipes;
-    init();
+    //init();
   }
 
   @override
@@ -111,8 +111,12 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
+                      List<QueryDocumentSnapshot> c = snapshot.data.docs;
+                      c.sort((a, b){
+                        return (b.get('likes') as List).length.compareTo((a.get('likes') as List).length);
+                      });
                       return ListView.builder(
-                        itemCount: snapshot.data.size,
+                        itemCount: c.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Card(
                               child: ListTile(
@@ -123,10 +127,10 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
                                       builder: (context) => ViewPostScreen(
                                           user: widget.user,
                                           selectedRecipe:
-                                              snapshot.data.docs[index])));
+                                              c[index])));
                             },
-                            title: Text(snapshot.data.docs[index]['name']),
-                            subtitle: Text("Number of likes "),
+                            title: Text(c[index]['name']),
+                            subtitle: Text("Number of likes: " + (c[index]['likes'] as List).length.toString()),
                           ));
                         },
                       );
@@ -144,24 +148,17 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
         onChanged: searchRecipe,
       );
 
-  Future searchRecipe(String query) async => debounce(() async {
-        final recipes = await db.recipeCollection
-            .where(('name').toLowerCase(), isEqualTo: query)
-            .snapshots()
-            .toList();
-
-        final recipeStream = db.recipeCollection
+  void searchRecipe(String query) {
+        print('here');
+        Stream<QuerySnapshot> s = db.recipeCollection
             .where(('name').toLowerCase(), isEqualTo: query)
             .snapshots();
 
-        if (!mounted) return;
-
         setState(() {
           this.query = query;
-          this.recipes = recipes;
-          this.recipeStream = recipeStream;
+          this.recipeStream = s;
         });
-      });
+      }
 }
 
 class NavigateDrawer extends StatefulWidget {

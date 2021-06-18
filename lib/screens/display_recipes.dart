@@ -71,8 +71,25 @@ class _displayRecipes extends State<displayRecipes> {
                 );
               }
               else {
+                List<QueryDocumentSnapshot> c = snapshot.data.docs;
+                c.sort((a,b){
+                  int acount = 0;
+                  int bcount = 0;
+                  List<dynamic> alist = a.get('ingredients');
+                  List<dynamic> blist = b.get('ingredients');
+                  List<String> intgredients = ['1', '2'];
+                  intgredients.forEach((element) {
+                    if(alist.contains(element)) {
+                      acount++;
+                    }
+                    if(blist.contains(element)) {
+                      bcount++;
+                    }
+                  });
+                  return bcount - acount;
+                });
                 return ListView.builder(
-                  itemCount: snapshot.data.size,
+                  itemCount: c.length,
                   itemBuilder: (BuildContext context, int index)  {
                   return Card(
                       child: ListTile(
@@ -82,10 +99,10 @@ class _displayRecipes extends State<displayRecipes> {
                           MaterialPageRoute(
                               builder: (context) => ViewPostScreen(
                                   user: widget.user,
-                                  selectedRecipe: snapshot.data.docs[index])));
+                                  selectedRecipe: c[index])));
                     },
-                    title: Text(snapshot.data.docs[index]['name']),
-                    subtitle: Text("Number of likes "),
+                    title: Text(c[index]['name']),
+                    subtitle: Text("Number of likes: " + (c[index]['likes'] as List).length.toString()),
                   ));
                 },
               );}
