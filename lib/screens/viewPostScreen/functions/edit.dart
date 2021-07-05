@@ -180,6 +180,7 @@ class _EditFormState extends State<EditForm> {
   Future updateToFirebase() async {
     List<dynamic> list = _EditFormState.ingredientsList.reversed.toList();
     String docId = widget.selectedRecipe.id;
+    String uploadName = nameController.text.substring(0, 1).toUpperCase() + (nameController.text.substring(1, nameController.text.length)).toLowerCase();
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
       Reference storageReference = FirebaseStorage.instance
@@ -189,7 +190,7 @@ class _EditFormState extends State<EditForm> {
       await uploadTask.whenComplete(() => null);
       storageReference.getDownloadURL().then((fileURL) {
         databaseService.recipeCollection.doc(docId).update({
-          'name': nameController.text,
+          'name': uploadName,
           'ingredients': list,
           'instructions': instructionController.text,
           'image': fileURL,
@@ -197,7 +198,7 @@ class _EditFormState extends State<EditForm> {
       });
     } else {
       databaseService.recipeCollection.doc(docId).update({
-        'name': nameController.text,
+        'name': uploadName,
         'ingredients': list,
         'instructions': instructionController.text,
       });
