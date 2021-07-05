@@ -180,6 +180,7 @@ class _UploadFormState extends State<UploadForm> {
     //add recipes
     String recipeID;
     List<dynamic> list = _UploadFormState.ingredientsList.reversed.toList();
+    String uploadName = nameController.text.substring(0, 1).toUpperCase() + (nameController.text.substring(1, nameController.text.length)).toLowerCase();
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
       Reference storageReference = FirebaseStorage.instance
@@ -187,11 +188,12 @@ class _UploadFormState extends State<UploadForm> {
           .child('uploads/$fileName');
       UploadTask uploadTask = storageReference.putFile(imageFile);
       await uploadTask.whenComplete(() => null);
+      print(uploadName);
       storageReference.getDownloadURL().then((fileURL) {
-        recipeID = databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, fileURL);
+        recipeID = databaseService.addRecipe(widget.user.uid, uploadName, list, instructionController.text, fileURL);
       });
     } else {
-      recipeID = databaseService.addRecipe(widget.user.uid, nameController.text, list, instructionController.text, null);
+      recipeID = databaseService.addRecipe(widget.user.uid, uploadName, list, instructionController.text, null);
     }
 
     // //update user post

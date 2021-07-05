@@ -124,7 +124,6 @@ class _EmailLogInState extends State<EmailLogIn> {
   Future<void> _signInAnonymously() async {
     await FirebaseAuth.instance.signInAnonymously().then((result) {
       isLoading = false;
-      print(result.user);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -157,7 +156,6 @@ class _EmailLogInState extends State<EmailLogIn> {
             email: emailController.text, password: passwordController.text)
         .then((result) {
       isLoading = false;
-      print(result.user.uid);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

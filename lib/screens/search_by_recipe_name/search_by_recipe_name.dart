@@ -121,18 +121,19 @@ class _searchByRecipeNameState extends State<searchByRecipeName> {
     if (query.length == 0) {
       s = db.recipes;
     } else {
-      var strSearch = query.toLowerCase();
+      var strSearch = query.substring(0, 1).toUpperCase() + query.substring(1, query.length).toLowerCase();
       var strlength = strSearch.length;
       var strFrontCode = strSearch.substring(0, strlength - 1);
       var strEndCode = strSearch.substring(strlength - 1, strSearch.length);
 
       var startcode = strSearch;
       var endcode =
-          strFrontCode + String.fromCharCode(strEndCode.codeUnitAt(0) + 1);
+      (strFrontCode + String.fromCharCode(strEndCode.codeUnitAt(0) + 1));
+
 
       s = db.recipeCollection
-          .where(('name').toLowerCase(), isGreaterThanOrEqualTo: startcode)
-          .where(('name').toLowerCase(), isLessThan: endcode)
+          .where((('name')), isGreaterThanOrEqualTo: startcode)
+          .where((('name')), isLessThan: endcode)
           .snapshots();
     }
 

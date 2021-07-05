@@ -342,6 +342,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                     ),
                                   ],
                                 ),
+                                widget.user.isAnonymous ?
+                                    new Container()
+                                :
                                 isSaved
                                     ? IconButton(
                                         icon: Icon(Icons.bookmark),

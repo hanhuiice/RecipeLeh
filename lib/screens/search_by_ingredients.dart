@@ -173,7 +173,7 @@ class _IngredientsTextFieldsState extends State<IngredientsTextField> {
       onChanged: (v) => _searchByIngredientsState.ingredients[widget.index] = v,
       decoration: InputDecoration(hintText: 'Enter your ingredient'),
       validator: (v) {
-        if (v.trim().isEmpty) return 'Please enter something';
+        if (v.trim().isEmpty) return 'Please enter something or remove this if not needed';
         return null;
       },
     );
