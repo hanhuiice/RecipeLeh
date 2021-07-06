@@ -57,7 +57,7 @@ class _searchByIngredientsState extends State<searchByIngredients> {
                       onPressed: () => {
                         if (_formKey.currentState.validate())
                               {
-                                copyOfIngredients = ingredients,
+                                copyOfIngredients = getSearchIngredient(ingredients),
                       Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -100,14 +100,22 @@ class _searchByIngredientsState extends State<searchByIngredients> {
   }
 
   Stream search() {
+    List<String> searchIngredient = getSearchIngredient(ingredients);
     Stream res;
     if (!ingredients.contains(null)) {
       res = db.recipeCollection
-          .where('ingredients', arrayContainsAny: ingredients)
+          .where('ingredients', arrayContainsAny: searchIngredient)
           .snapshots();
     }
     ingredients = [null];
     return res;
+  }
+
+  List<String> getSearchIngredient(List<String> list) {
+    for (int i = 0; i < list.length; i++) {
+      list[i] = list[i].substring(0, 1).toUpperCase() + (list[i].substring(1, list[i].length)).toLowerCase();
+    }
+    return list;
   }
 
   /// add / remove button

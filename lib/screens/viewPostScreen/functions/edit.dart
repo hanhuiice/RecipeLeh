@@ -178,9 +178,10 @@ class _EditFormState extends State<EditForm> {
   }
 
   Future updateToFirebase() async {
-    List<dynamic> list = _EditFormState.ingredientsList.reversed.toList();
+    List<dynamic> list = getUploadList(_EditFormState.ingredientsList.reversed.toList());
     String docId = widget.selectedRecipe.id;
     String uploadName = nameController.text.substring(0, 1).toUpperCase() + (nameController.text.substring(1, nameController.text.length)).toLowerCase();
+
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
       Reference storageReference = FirebaseStorage.instance
@@ -204,6 +205,14 @@ class _EditFormState extends State<EditForm> {
       });
     }
   }
+
+  getUploadList(List<dynamic> list) {
+    for (int i = 0; i < list.length; i++) {
+      list[i] = list[i].substring(0, 1).toUpperCase() + (list[i].substring(1, list[i].length)).toLowerCase();
+    }
+    return list;
+  }
+
 
   Future _showChoiceDialog(BuildContext context) {
     return showDialog(context: context, builder: (BuildContext context){

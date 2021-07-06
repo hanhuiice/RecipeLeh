@@ -179,7 +179,7 @@ class _UploadFormState extends State<UploadForm> {
   Future uploadToFirebase() async {
     //add recipes
     String recipeID;
-    List<dynamic> list = _UploadFormState.ingredientsList.reversed.toList();
+    List<dynamic> list = getUploadList(_UploadFormState.ingredientsList.reversed.toList());
     String uploadName = nameController.text.substring(0, 1).toUpperCase() + (nameController.text.substring(1, nameController.text.length)).toLowerCase();
     if (imageFile != null) {
       String fileName = basename(imageFile.path);
@@ -223,6 +223,13 @@ class _UploadFormState extends State<UploadForm> {
       'saved': saved,
       'uid' : uid
     });
+  }
+
+  getUploadList(List<dynamic> list) {
+    for (int i = 0; i < list.length; i++) {
+      list[i] = list[i].substring(0, 1).toUpperCase() + (list[i].substring(1, list.length)).toLowerCase();
+    }
+    return list;
   }
 
   Future _showChoiceDialog(BuildContext context) {
