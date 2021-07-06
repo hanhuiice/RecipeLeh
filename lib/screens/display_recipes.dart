@@ -118,26 +118,24 @@ class _displayRecipes extends State<displayRecipes> {
               }
               else {
                 List<QueryDocumentSnapshot> c = snapshot.data.docs;
+                List<Matches> result = [];
                 if (widget.ingredientList != null) {
-                c.sort((a,b) {
-                  int acount = 0;
-                  int bcount = 0;
-                  List<dynamic> alist = a.get('ingredients');
-                  List<dynamic> blist = b.get('ingredients');
-                  widget.ingredientList.forEach((element) {
-                    if(alist.contains(element)) {
-                      acount++;
-                    }
-                    if(blist.contains(element)) {
-                      bcount++;
-                    }
+                  c.forEach((element) {
+                    int count = 0;
+                    List<dynamic> list = element.get('ingredients');
+                    widget.ingredientList.forEach((element) {
+                      if(list.contains(element)) {
+                        count++;
+                      }
+                    });
+                    result.add(Matches(element, count));
                   });
-                  return bcount - acount;
-                });
-
+                  result.sort((a,b) {
+                    return b.count - a.count;
+                  });
                 }
                 return ListView.builder(
-                  itemCount: c.length,
+                  itemCount: result.length,
                   itemBuilder: (BuildContext context, int index)  {
                   return Card(
                       child: ListTile(
@@ -147,7 +145,7 @@ class _displayRecipes extends State<displayRecipes> {
                           MaterialPageRoute(
                               builder: (context) => ViewPostScreen(
                                   user: widget.user,
-                                  selectedRecipe: c[index]))).then((value) => db.usersCollection
+                                  selectedRecipe: result[index].documentSnapshot))).then((value) => db.usersCollection
                           .where('uid', isEqualTo: widget.user.uid)
                           .get()
                           .then((QuerySnapshot snapshot) => {
@@ -156,8 +154,8 @@ class _displayRecipes extends State<displayRecipes> {
                         })
                       }));
                     },
-                    title: Text(c[index]['name']),
-                    subtitle: Text("Number of likes: " + (c[index]['likes'] as List).length.toString()),
+                    title: Text(result[index].documentSnapshot['name']),
+                    subtitle: Text("Matching Ingredients: " + result[index].count.toString()),
                   ));
                 },
               );}
@@ -165,4 +163,11 @@ class _displayRecipes extends State<displayRecipes> {
         );
 
   }
+}
+
+class Matches {
+  DocumentSnapshot documentSnapshot;
+  int count;
+
+  Matches(this.documentSnapshot, this.count);
 }
