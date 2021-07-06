@@ -227,7 +227,7 @@ class _UploadFormState extends State<UploadForm> {
 
   getUploadList(List<dynamic> list) {
     for (int i = 0; i < list.length; i++) {
-      list[i] = list[i].substring(0, 1).toUpperCase() + (list[i].substring(1, list.length)).toLowerCase();
+      list[i] = list[i].substring(0, 1).toUpperCase() + (list[i].substring(1, list[i].length)).toLowerCase();
     }
     return list;
   }
