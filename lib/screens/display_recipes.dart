@@ -122,13 +122,15 @@ class _displayRecipes extends State<displayRecipes> {
                 if (widget.ingredientList != null) {
                   c.forEach((element) {
                     int count = 0;
+                    List<dynamic> matchingIngredients = [];
                     List<dynamic> list = element.get('ingredients');
                     widget.ingredientList.forEach((element) {
                       if(list.contains(element)) {
                         count++;
+                        matchingIngredients.add(element);
                       }
                     });
-                    result.add(Matches(element, count));
+                    result.add(Matches(element, matchingIngredients.toSet().toList(), count));
                   });
                   result.sort((a,b) {
                     return b.count - a.count;
@@ -155,7 +157,7 @@ class _displayRecipes extends State<displayRecipes> {
                       }));
                     },
                     title: Text(result[index].documentSnapshot['name']),
-                    subtitle: Text("Matching Ingredients: " + result[index].count.toString()),
+                    subtitle: Text("Matching Ingredients: " + result[index].matchingIngredients.toString()),
                   ));
                 },
               );}
@@ -168,6 +170,7 @@ class _displayRecipes extends State<displayRecipes> {
 class Matches {
   DocumentSnapshot documentSnapshot;
   int count;
+  List<dynamic> matchingIngredients;
 
-  Matches(this.documentSnapshot, this.count);
+  Matches(this.documentSnapshot, this.matchingIngredients, this.count);
 }
