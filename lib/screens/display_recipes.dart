@@ -135,6 +135,10 @@ class _displayRecipes extends State<displayRecipes> {
                   result.sort((a,b) {
                     return b.count - a.count;
                   });
+                } else {
+                  c.forEach((element) {
+                    result.add(Matches(element, [], 0));
+                  });
                 }
                 return ListView.builder(
                   itemCount: result.length,
@@ -157,7 +161,8 @@ class _displayRecipes extends State<displayRecipes> {
                       }));
                     },
                     title: Text(result[index].documentSnapshot['name']),
-                    subtitle: Text("Matching Ingredients: " + result[index].matchingIngredients.toString()),
+                    subtitle: (widget.recipes != null) ? Text("Matching Ingredients: " + result[index].matchingIngredients.toString())
+                                                       : Text("Number of likes: " + (result[index].documentSnapshot['likes'] as List).length.toString()),
                   ));
                 },
               );}
