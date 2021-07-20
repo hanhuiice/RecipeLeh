@@ -174,6 +174,9 @@ class _EmailLogInState extends State<EmailLogIn> {
                   child: Text("Ok"),
                   onPressed: () {
                     Navigator.of(context).pop();
+                    setState(() {
+                      isLoading = false;
+                    });
                   },
                 )
               ],
