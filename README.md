@@ -15,3 +15,8 @@ Firebase (Backend)
 Git (Version Control)
 
 ## Features
+
+## Team Members
+1. Lee Jia Jun Joseph
+
+2. Wu HanHui
