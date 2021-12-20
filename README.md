@@ -1,16 +1,17 @@
-# recipe_leh
+# NUS Orbital Project 2021 - RecipeLeh
 
-A new Flutter project.
+## Motivation:
+In this fast-paced country, most students have both of their parents out in the working field. 
+Many would love to learn some culinary skills in order to prepare a meal for themselves or for their family. Especially in this pandemic where most students are having online 
+classes, yet would like to save up money instead of the frequent use of food delivery. Many probably would research online for food recipes, however, would face insufficient 
+ingredients at home. In order to complete the food recipe, they are required to purchase additional ingredients which would first defeat the purpose of saving money. Hence, an 
+application which would allow the users to be able to input the ingredients that they currently have and would display recipes that use the exact ingredients would be beneficial. 
+Adding social media functionalities so that the application is more engaging and like-minded people can interact and learn from each other through constructive feedback.
+## Tech Stack:
+Flutter-Dart (Frontend)
 
-## Getting Started
+Firebase (Backend)
 
-This project is a starting point for a Flutter application.
+Git (Version Control)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features
