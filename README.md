@@ -31,7 +31,7 @@ There is a difference in the features provided between the User and Guest accoun
             <td>Login Page</td>
             <td>
                 <ul>
-                    <li>Users are provided....</li>
+                    <li> Users are provided the options to <strong>login with it's crediential</strong> or <strong>sign up an account</strong> or <strong>sign in as a guest</strong> </li>
                 </ul>
             </td>
             <td><img src = ""></td>
@@ -41,7 +41,91 @@ There is a difference in the features provided between the User and Guest accoun
             <td>Signup Page</td>
             <td>
                 <ul>
-                    <li>This page allows....</li>
+                    <li>This page allows users to <strong>create their account</strong> with full access to the features provided in this application</li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+        <tr>
+            <td>Menu Bar</td>
+            <td>
+                <ul>
+                    <li><strong>Functions available</strong> for users and guests respectively.</li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+        <tr>
+            <td>Search By Recipe</td>
+            <td>
+                <ul>
+                    <li> A <strong>search function that both users and guests are able to input the name of the recipe into the search bar</strong>.</li>
+                      <li> The recipes displayed are <strong>sorted by decreasing number of likes</strong>.</li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+        <tr>
+            <td>Search By Ingredients</td>
+            <td>
+                <ul>
+                    <li>xxxx</li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+        <tr>
+            <td>Upload</td>
+            <td>
+                <ul>
+                    <li>Users are able to <strong>upload their recipes</strong> with the help of hint text provided.</li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+        <tr>
+            <td>View Post</td>
+            <td>
+                <ul>
+                    <li>User who uploaded the post would be able to <strong>edit</strong> and <strong>delete</strong> it with icons in the top right corner of the post.</li>
+                  <li>Other users are able to <strong>like, comment and save</strong> the post.</li>
+                  <li>Guests are <strong>provided only the options to view the post and comments</strong></li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+        <tr>
+            <td>Comment</td>
+            <td>
+                <ul>
+                  <li>Users are able to <strong>view and comment</strong> on the post.</li>
+                  <li>Guests are only able to <strong>view the comments<strong>.</li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+        <tr>
+            <td>Saved Recipes</td>
+            <td>
+                <ul>
+                    <li>Users are able to <strong>view all the recipes saved</strong> previously and are <strong>sorted by the most recent saved posts at the top</strong>.</li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+        <tr>
+            <td>My Posts</td>
+            <td>
+                <ul>
+                    <li>Users are able to <strong>view all the posts uploaded</strong> by themselves and are <strong>sorted by the most recent posts uploaded at the top</strong></li>
                 </ul>
             </td>
             <td><img src = ""></td>
@@ -50,7 +134,7 @@ There is a difference in the features provided between the User and Guest accoun
     </tbody>
 </table>
 
-
+<!--
 | Features | Descriptions | Users | Guests |
 | --- | --- | --- | --- |
 | Login Page | - Users are provided the options to **login with it's crediential** or **sign up an account** or **sign in as a guest**. ||
@@ -63,7 +147,7 @@ There is a difference in the features provided between the User and Guest accoun
 | Comment | - Users are able to **view and comment** on the post. <br /> - Guests are only able to **view the comments**. ||
 | Saved Recipes | - Users are able to **view all the recipes saved** previously and are **sorted by the most recent saved posts at the top**. ||
 | My Posts | - Users are able to **view all the posts uploaded** by themselves and are **sorted by the most recent posts uploaded at the top**. ||
-
+-->
 ## Team Members :busts_in_silhouette:
 1. Lee Jia Jun Joseph
 
