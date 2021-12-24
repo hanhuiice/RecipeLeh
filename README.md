@@ -34,7 +34,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li> Users are provided the options to <strong>login with it's crediential</strong> or <strong>sign up an account</strong> or <strong>sign in as a guest</strong> </li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\LoginPage.png"></td>
+            <td><img src = "assets\gifs\LoginPage.png" height = "300" width = "280"></td>
         </tr>
         <tr>
             <td>Signup Page</td>
@@ -43,7 +43,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>This page allows users to <strong>create their account</strong> with full access to the features provided in this application</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\SignupPage.png"></td>
+            <td><img src = "assets\gifs\SignupPage.png" height = "300" width = "280"></td>
         </tr>
         <tr>
             <td>Menu Bar</td>
@@ -52,36 +52,41 @@ There is a difference in the features provided between the User and Guest accoun
                     <li><strong>Functions available</strong> for users and guests respectively.</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\MenuBar(User).png"></td>
-            <td><img src = "assets\gifs\MenuBar(Guest).png"></td>
+            <td><img src = "assets\gifs\MenuBar(User).png" height = "300" width = "280"></td>
+            <td><img src = "assets\gifs\MenuBar(Guest).png" height = "300" width = "280"></td>
         </tr>
         <tr>
             <td>Search By Recipe</td>
             <td>
                 <ul>
-                    <li> A <strong>search function that both users and guests are able to input the name of the recipe into the search bar</strong>.</li>
+                    <li> A <strong>on change search function that both users and guests are able to input the name of the recipe into the search bar</strong>.</li>
                       <li> The recipes displayed are <strong>sorted by decreasing number of likes</strong>.</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\SearchByRecipes.gif"></td>
+            <td><img src = "assets\gifs\SearchByRecipes.gif" height = "300" width = "280"></td>
         </tr>
         <tr>
             <td>Search By Ingredients</td>
             <td>
                 <ul>
-                    <li>xxxx</li>
+                    <li> A <strong>search function that both users and guest are able to input ingredients into the search bars</strong>.</li>
+                  <li> The plus(+) icon indicates an addition of an ingredient that requires the user to key in.</li>
+                    <li>The minus(-) icon indicates the removal of that ingredient.</li>
+                  <li>An alert would be prompted if search is being pressed with empty keywords.</li>
+                  <li>Recipes displayed are <strong>sorted by the number of matching ingredients with the most number of matched ingredients at the top<strong></li>
                 </ul>
             </td>
-            <td><img src ="assets/gifs/SearchByIngredients.gif"></td>
+            <td><img src ="assets/gifs/SearchByIngredients.gif" height = "300" width = "280"></td>
         </tr>
         <tr>
             <td>Upload</td>
             <td>
                 <ul>
                     <li>Users are able to <strong>upload their recipes</strong> with the help of hint text provided.</li>
+                  <li>An alert would be prompted if upload is being pressed with empty keywords.</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\Upload.gif"></td>
+            <td><img src = "assets\gifs\Upload.gif" height = "300" width = "280"></td>
         </tr>
         <tr>
             <td>View Post</td>
@@ -92,8 +97,8 @@ There is a difference in the features provided between the User and Guest accoun
                   <li>Guests are <strong>provided only the options to view the post and comments</strong></li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\ViewPost(User).gif"></td>
-            <td><img src = "assets\gifs\ViewPost(Guest).gif"></td>
+            <td><img src = "assets\gifs\ViewPost(User).gif" height = "300" width = "280"></td>
+            <td><img src = "assets\gifs\ViewPost(Guest).gif" height = "300" width = "280"></td>
         </tr>
         <tr>
             <td>Comment</td>
@@ -113,7 +118,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>Users are able to <strong>view all the recipes saved</strong> previously and are <strong>sorted by the most recent saved posts at the top</strong>.</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\SavedRecipes.gif"></td>
+            <td><img src = "assets\gifs\SavedRecipes.gif" height = "300" width = "280"></td>
         </tr>
         <tr>
             <td>My Posts</td>
@@ -122,7 +127,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>Users are able to <strong>view all the posts uploaded</strong> by themselves and are <strong>sorted by the most recent posts uploaded at the top</strong></li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\MyPosts.gif"></td>
+            <td><img src = "assets\gifs\MyPosts.gif" height = "300" width = "280"></td>
         </tr>
     </tbody>
 </table>
