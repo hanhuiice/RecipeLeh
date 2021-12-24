@@ -44,7 +44,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>This page allows users to <strong>create their account</strong> with full access to the features provided in this application</li>
                 </ul>
             </td>
-            <td><img src = ""></td>
+            <td><img src = "assets\gifs\SignupPage.png"></td>
             <td><img src = ""></td>
         </tr>
         <tr>
@@ -54,7 +54,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li><strong>Functions available</strong> for users and guests respectively.</li>
                 </ul>
             </td>
-            <td><img src = ""></td>
+            <td><img src = "assets\gifs\MenuBar(User).png"></td>
             <td><img src = ""></td>
         </tr>
         <tr>
@@ -65,7 +65,7 @@ There is a difference in the features provided between the User and Guest accoun
                       <li> The recipes displayed are <strong>sorted by decreasing number of likes</strong>.</li>
                 </ul>
             </td>
-            <td><img src = ""></td>
+            <td><video src = "assets\gifs\SearchByRecipes.gif"></td>
             <td><img src = ""></td>
         </tr>
         <tr>
@@ -85,7 +85,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>Users are able to <strong>upload their recipes</strong> with the help of hint text provided.</li>
                 </ul>
             </td>
-            <td><img src = ""></td>
+            <td><video src = "assets\gifs\Upload.gif"></td>
             <td><img src = ""></td>
         </tr>
         <tr>
@@ -97,7 +97,7 @@ There is a difference in the features provided between the User and Guest accoun
                   <li>Guests are <strong>provided only the options to view the post and comments</strong></li>
                 </ul>
             </td>
-            <td><img src = ""></td>
+            <td><video src = "assets\gifs\ViewPost.gif"></td>
             <td><img src = ""></td>
         </tr>
         <tr>
