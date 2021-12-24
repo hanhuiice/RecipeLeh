@@ -17,7 +17,6 @@ Git (Version Control)
 ## Features
 
 |A|B|C|
-|-|-|-|
 |a|b|c
 
 ## Team Members
