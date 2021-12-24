@@ -75,7 +75,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>xxxx</li>
                 </ul>
             </td>
-            <td><img src = "assets\images\readme\Search By Ingredients.mp4"></td>
+            <td><video src = "assets\images\readme\SearchByIngredients.mp4"></td>
             <td><img src = ""></td>
         </tr>
         <tr>
