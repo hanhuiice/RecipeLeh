@@ -34,7 +34,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li> Users are provided the options to <strong>login with it's crediential</strong> or <strong>sign up an account</strong> or <strong>sign in as a guest</strong> </li>
                 </ul>
             </td>
-            <td align = "center"><img src = "assets\gifs\LoginPage.png" height = "300" width = "200"></td>
+            <td colspan = 2 align = "center"><img src = "assets\gifs\LoginPage.png?raw=true" height = "300" width = "200"></td>
         </tr>
         <tr>
             <td>Signup Page</td>
@@ -43,7 +43,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>This page allows users to <strong>create their account</strong> with full access to the features provided in this application</li>
                 </ul>
             </td>
-            <td align = "center"><img src = "assets\gifs\SignupPage.png" height = "300" width = "200"></td>
+            <td colspan = 2 align = "center"><img src = "assets\gifs\SignupPage.png?raw=true" height = "300" width = "200"></td>
         </tr>
         <tr>
             <td>Menu Bar</td>
@@ -52,8 +52,8 @@ There is a difference in the features provided between the User and Guest accoun
                     <li><strong>Functions available</strong> for users and guests respectively.</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\MenuBar(User).png" height = "300" width = "280"></td>
-            <td><img src = "assets\gifs\MenuBar(Guest).png" height = "300" width = "280"></td>
+            <td><img src = "assets\gifs\MenuBar(User).png?raw=true" height = "300" width = "150"></td>
+            <td><img src = "assets\gifs\MenuBar(Guest).png?raw=true" height = "300" width = "150"></td>
         </tr>
         <tr>
             <td>Search By Recipe</td>
@@ -63,7 +63,7 @@ There is a difference in the features provided between the User and Guest accoun
                       <li> The recipes displayed are <strong>sorted by decreasing number of likes</strong>.</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\SearchByRecipes.gif" height = "300" width = "280"></td>
+            <td><img src = "assets\gifs\SearchByRecipes.gif?raw=true" height = "300" width = "150"></td>
         </tr>
         <tr>
             <td>Search By Ingredients</td>
@@ -76,7 +76,7 @@ There is a difference in the features provided between the User and Guest accoun
                   <li>Recipes displayed are <strong>sorted by the number of matching ingredients with the most number of matched ingredients at the top<strong></li>
                 </ul>
             </td>
-            <td><img src ="assets/gifs/SearchByIngredients.gif" height = "300" width = "280"></td>
+            <td><img src ="assets/gifs/SearchByIngredients.gif?raw=true" height = "300" width = "150"></td>
         </tr>
         <tr>
             <td>Upload</td>
@@ -87,7 +87,7 @@ There is a difference in the features provided between the User and Guest accoun
                   <li>Guests <strong>do not have this feature</strong></li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\Upload.gif" height = "300" width = "280"></td>
+            <td><img src = "assets\gifs\Upload.gif?raw=true" height = "300" width = "150"></td>
         </tr>
         <tr>
             <td>View Post</td>
@@ -98,8 +98,8 @@ There is a difference in the features provided between the User and Guest accoun
                   <li>Guests are <strong>provided only the options to view the post and comments</strong></li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\ViewPost(User).gif" height = "300" width = "280"></td>
-            <td><img src = "assets\gifs\ViewPost(Guest).gif" height = "300" width = "280"></td>
+            <td><img src = "assets\gifs\ViewPost(User).gif?raw=true" height = "300" width = "150"></td>
+            <td><img src = "assets\gifs\ViewPost(Guest).gif?raw=true" height = "300" width = "150"></td>
         </tr>
         <tr>
             <td>Comment</td>
@@ -109,8 +109,8 @@ There is a difference in the features provided between the User and Guest accoun
                   <li>Guests are only able to <strong>view the comments</strong>.</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\Comment(User).png" height = "300" width = "280"></td>
-            <td><img src = "assets\gifs\Comment(Guest).png" height = "300" width = "280"></td>
+            <td><img src = "assets\gifs\Comment(User).png?raw=true" height = "300" width = "150"></td>
+            <td><img src = "assets\gifs\Comment(Guest).png?raw=true" height = "300" width = "150"></td>
         </tr>
         <tr>
             <td>Saved Recipes</td>
@@ -120,7 +120,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>Guests <strong>do not have this feature</strong></li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\SavedRecipes.gif" height = "300" width = "280"></td>
+            <td><img src = "assets\gifs\SavedRecipes.gif?raw=true" height = "300" width = "150"></td>
         </tr>
         <tr>
             <td>My Posts</td>
@@ -130,7 +130,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>Guests <strong>do not have this feature</strong></li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\MyPosts.gif" height = "300" width = "280"></td>
+            <td><img src = "assets\gifs\MyPosts.gif?raw=true" height = "300" width = "150"></td>
         </tr>
     </tbody>
 </table>
