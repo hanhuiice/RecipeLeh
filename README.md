@@ -1,5 +1,7 @@
 # NUS Orbital Project 2021 - RecipeLeh
-![dart](https://user-images.githubusercontent.com/80507427/147348918-fe683172-f6b0-497c-a96f-1da97c8112f4.png)
+<p align="center">
+  <img src='assets/images/dart.png'>
+</p>
 
 ## Motivation:
 In this fast-paced country, most students have both of their parents out in the working field. 
@@ -16,6 +18,38 @@ Adding social media functionalities so that the application is more engaging and
 
 ## Features
 There is a difference in the features provided between the User and Guest account.
+
+<table>
+    <tbody>
+        <tr>
+            <th>Features</th>
+            <th>Descriptions</th>
+            <th>Users</th>
+            <th>Guests</th>
+        </tr>
+        <tr>
+            <td>Login Page</td>
+            <td>
+                <ul>
+                    <li>Users are provided....</li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+        <tr>
+            <td>Signup Page</td>
+            <td>
+                <ul>
+                    <li>This page allows....</li>
+                </ul>
+            </td>
+            <td><img src = ""></td>
+            <td><img src = ""></td>
+        </tr>
+    </tbody>
+</table>
+
 
 | Features | Descriptions | Users | Guests |
 | --- | --- | --- | --- |
