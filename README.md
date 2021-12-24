@@ -92,8 +92,8 @@ There is a difference in the features provided between the User and Guest accoun
             <td>View Post</td>
             <td>
                 <ul>
-                    <li>User who uploaded the post would be able to <strong>edit</strong> and <strong>delete</strong> it with icons in the top right corner of the post.</li>
-                  <li>Other users are able to <strong>like, comment and save</strong> the post.</li>
+                    <li>User who uploaded the post would be able to <strong>edit</strong> and <strong>delete</strong> it with icons in the top right corner of the post respectively(left to right).</li>
+                  <li>Other users are able to <strong>like, comment and save</strong> the post respectively(left to right).</li>
                   <li>Guests are <strong>provided only the options to view the post and comments</strong></li>
                 </ul>
             </td>
