@@ -53,7 +53,7 @@ There is a difference in the features provided between the User and Guest accoun
                 </ul>
             </td>
             <td><img src = "assets\gifs\MenuBar(User).png"></td>
-            <td><img src = ""></td>
+            <td><img src = "assets\gifs\MenuBar(Guest).png"></td>
         </tr>
         <tr>
             <td>Search By Recipe</td>
@@ -92,8 +92,8 @@ There is a difference in the features provided between the User and Guest accoun
                   <li>Guests are <strong>provided only the options to view the post and comments</strong></li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\ViewPost.gif"></td>
-            <td><img src = ""></td>
+            <td><img src = "assets\gifs\ViewPost(User).gif"></td>
+            <td><img src = "assets\gifs\ViewPost(Guest).gif"></td>
         </tr>
         <tr>
             <td>Comment</td>
