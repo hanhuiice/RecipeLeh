@@ -7,19 +7,26 @@ classes, yet would like to save up money instead of the frequent use of food del
 ingredients at home. In order to complete the food recipe, they are required to purchase additional ingredients which would first defeat the purpose of saving money. Hence, an 
 application which would allow the users to be able to input the ingredients that they currently have and would display recipes that use the exact ingredients would be beneficial. 
 Adding social media functionalities so that the application is more engaging and like-minded people can interact and learn from each other through constructive feedback.
-## Tech Stack:
-Flutter-Dart (Front-end)
 
-Firebase (Back-end)
-
-Git (Version Control)
+## Tech Stack :computer::
+- Flutter-Dart (Front-end)
+- Firebase (Back-end)
+- Git (Version Control)
 
 ## Features
+There is a Guest and User account in which the guest's account would have limitations to the features.
 
-|A|B|C|
-|a|b|c
+| Features | Descriptions | Users | Guest |
+| - | - | - | - |
+||||
+||||
+||||
+||||
+||||
+||||
+||||
 
-## Team Members
+## Team Members :busts_in_silhouette::
 1. Lee Jia Jun Joseph
 
 2. Wu HanHui
