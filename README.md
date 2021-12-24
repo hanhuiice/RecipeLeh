@@ -34,8 +34,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li> Users are provided the options to <strong>login with it's crediential</strong> or <strong>sign up an account</strong> or <strong>sign in as a guest</strong> </li>
                 </ul>
             </td>
-            <td><img src = ""></td>
-            <td><img src = ""></td>
+            <td><img src = "assets\gifs\LoginPage.png"></td>
         </tr>
         <tr>
             <td>Signup Page</td>
@@ -45,7 +44,6 @@ There is a difference in the features provided between the User and Guest accoun
                 </ul>
             </td>
             <td><img src = "assets\gifs\SignupPage.png"></td>
-            <td><img src = ""></td>
         </tr>
         <tr>
             <td>Menu Bar</td>
@@ -66,7 +64,6 @@ There is a difference in the features provided between the User and Guest accoun
                 </ul>
             </td>
             <td><img src = "assets\gifs\SearchByRecipes.gif"></td>
-            <td><img src = ""></td>
         </tr>
         <tr>
             <td>Search By Ingredients</td>
@@ -75,8 +72,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>xxxx</li>
                 </ul>
             </td>
-            <td><video src ="assets/gifs/SearchByIngredients.gif"></td>
-            <td><img src = ""></td>
+            <td><img src ="assets/gifs/SearchByIngredients.gif"></td>
         </tr>
         <tr>
             <td>Upload</td>
@@ -86,7 +82,6 @@ There is a difference in the features provided between the User and Guest accoun
                 </ul>
             </td>
             <td><img src = "assets\gifs\Upload.gif"></td>
-            <td><img src = ""></td>
         </tr>
         <tr>
             <td>View Post</td>
@@ -118,8 +113,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>Users are able to <strong>view all the recipes saved</strong> previously and are <strong>sorted by the most recent saved posts at the top</strong>.</li>
                 </ul>
             </td>
-            <td><img src = ""></td>
-            <td><img src = ""></td>
+            <td><img src = "assets\gifs\SavedRecipes.gif"></td>
         </tr>
         <tr>
             <td>My Posts</td>
@@ -128,8 +122,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>Users are able to <strong>view all the posts uploaded</strong> by themselves and are <strong>sorted by the most recent posts uploaded at the top</strong></li>
                 </ul>
             </td>
-            <td><img src = ""></td>
-            <td><img src = ""></td>
+            <td><img src = "assets\gifs\MyPosts.gif"></td>
         </tr>
     </tbody>
 </table>
