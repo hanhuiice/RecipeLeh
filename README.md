@@ -8,9 +8,9 @@ ingredients at home. In order to complete the food recipe, they are required to 
 application which would allow the users to be able to input the ingredients that they currently have and would display recipes that use the exact ingredients would be beneficial. 
 Adding social media functionalities so that the application is more engaging and like-minded people can interact and learn from each other through constructive feedback.
 ## Tech Stack:
-Flutter-Dart (Frontend)
+Flutter-Dart (Front-end)
 
-Firebase (Backend)
+Firebase (Back-end)
 
 Git (Version Control)
 
