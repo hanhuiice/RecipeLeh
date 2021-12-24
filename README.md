@@ -34,7 +34,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li> Users are provided the options to <strong>login with it's crediential</strong> or <strong>sign up an account</strong> or <strong>sign in as a guest</strong> </li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\LoginPage.png" height = "300" width = "280"></td>
+            <td align = "center"><img src = "assets\gifs\LoginPage.png" height = "300" width = "200"></td>
         </tr>
         <tr>
             <td>Signup Page</td>
@@ -43,7 +43,7 @@ There is a difference in the features provided between the User and Guest accoun
                     <li>This page allows users to <strong>create their account</strong> with full access to the features provided in this application</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\SignupPage.png" height = "300" width = "280"></td>
+            <td align = "center"><img src = "assets\gifs\SignupPage.png" height = "300" width = "200"></td>
         </tr>
         <tr>
             <td>Menu Bar</td>
