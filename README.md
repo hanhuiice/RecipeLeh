@@ -84,6 +84,7 @@ There is a difference in the features provided between the User and Guest accoun
                 <ul>
                     <li>Users are able to <strong>upload their recipes</strong> with the help of hint text provided.</li>
                   <li>An alert would be prompted if upload is being pressed with empty keywords.</li>
+                  <li>Guests do not have this feature</li>
                 </ul>
             </td>
             <td><img src = "assets\gifs\Upload.gif" height = "300" width = "280"></td>
@@ -116,6 +117,7 @@ There is a difference in the features provided between the User and Guest accoun
             <td>
                 <ul>
                     <li>Users are able to <strong>view all the recipes saved</strong> previously and are <strong>sorted by the most recent saved posts at the top</strong>.</li>
+                    <li>Guests do not have this feature</li>
                 </ul>
             </td>
             <td><img src = "assets\gifs\SavedRecipes.gif" height = "300" width = "280"></td>
@@ -125,6 +127,7 @@ There is a difference in the features provided between the User and Guest accoun
             <td>
                 <ul>
                     <li>Users are able to <strong>view all the posts uploaded</strong> by themselves and are <strong>sorted by the most recent posts uploaded at the top</strong></li>
+                    <li>Guests do not have this feature</li>
                 </ul>
             </td>
             <td><img src = "assets\gifs\MyPosts.gif" height = "300" width = "280"></td>
