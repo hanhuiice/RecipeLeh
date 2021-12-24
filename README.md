@@ -109,7 +109,7 @@ There is a difference in the features provided between the User and Guest accoun
                   <li>Guests are only able to <strong>view the comments</strong>.</li>
                 </ul>
             </td>
-            <td><img src = "assets\gifs\Comment(User).png?raw=true" height = "300" width = "150"></td>
+            <td><img src = "assets\gifs\Comment(User).gif?raw=true" height = "300" width = "150"></td>
             <td><img src = "assets\gifs\Comment(Guest).png?raw=true" height = "300" width = "150"></td>
         </tr>
         <tr>
